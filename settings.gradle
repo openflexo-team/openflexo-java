@@ -1,0 +1,4 @@
+include 'java-ta',
+    'java-ta-test',
+    'java-ta-test-rc',
+    'java-ta-ui'
