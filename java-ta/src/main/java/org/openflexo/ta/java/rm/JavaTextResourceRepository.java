@@ -36,33 +36,33 @@
  * 
  */
 
-package org.openflexo.ta.xx.rm;
+package org.openflexo.ta.java.rm;
 
 import org.openflexo.foundation.resource.FlexoResourceCenter;
 import org.openflexo.foundation.technologyadapter.TechnologyAdapterResourceRepository;
 import org.openflexo.pamela.annotations.ModelEntity;
 import org.openflexo.pamela.exceptions.ModelDefinitionException;
 import org.openflexo.pamela.factory.ModelFactory;
-import org.openflexo.ta.xx.XXTechnologyAdapter;
-import org.openflexo.ta.xx.model.XXText;
+import org.openflexo.ta.java.JavaTechnologyAdapter;
+import org.openflexo.ta.java.model.JavaText;
 
 /**
  * XX resource repository<br>
  * 
- * A repository which references some {@link XXTextResource}
+ * A repository which references some {@link JavaTextResource}
  * 
  * @author sylvain
  * 
  */
 @ModelEntity
-public interface XXTextResourceRepository<I> extends TechnologyAdapterResourceRepository<XXTextResource, XXTechnologyAdapter, XXText, I> {
+public interface JavaTextResourceRepository<I> extends TechnologyAdapterResourceRepository<JavaTextResource, JavaTechnologyAdapter, JavaText, I> {
 
-	public static <I> XXTextResourceRepository<I> instanciateNewRepository(XXTechnologyAdapter technologyAdapter,
+	public static <I> JavaTextResourceRepository<I> instanciateNewRepository(JavaTechnologyAdapter technologyAdapter,
 			FlexoResourceCenter<I> resourceCenter) {
 		try {
-			ModelFactory factory = new ModelFactory(XXTextResourceRepository.class);
+			ModelFactory factory = new ModelFactory(JavaTextResourceRepository.class);
 			@SuppressWarnings("unchecked")
-			XXTextResourceRepository<I> newRepository = factory.newInstance(XXTextResourceRepository.class);
+			JavaTextResourceRepository<I> newRepository = factory.newInstance(JavaTextResourceRepository.class);
 			newRepository.setTechnologyAdapter(technologyAdapter);
 			newRepository.setResourceCenter(resourceCenter);
 			newRepository.setBaseArtefact(resourceCenter.getBaseArtefact());

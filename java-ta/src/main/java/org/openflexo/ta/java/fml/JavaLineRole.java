@@ -36,31 +36,64 @@
  * 
  */
 
-package org.openflexo.ta.xx.rm;
+package org.openflexo.ta.java.fml;
 
-import org.openflexo.foundation.resource.PamelaResource;
-import org.openflexo.foundation.technologyadapter.TechnologyAdapterResource;
+import java.lang.reflect.Type;
+
+import org.openflexo.foundation.fml.FlexoRole;
+import org.openflexo.foundation.fml.annotations.FML;
+import org.openflexo.foundation.fml.rt.AbstractVirtualModelInstanceModelFactory;
+import org.openflexo.foundation.fml.rt.ActorReference;
+import org.openflexo.foundation.fml.rt.FlexoConceptInstance;
 import org.openflexo.pamela.annotations.ImplementationClass;
 import org.openflexo.pamela.annotations.ModelEntity;
-import org.openflexo.ta.xx.XXTechnologyAdapter;
-import org.openflexo.ta.xx.model.XXModelFactory;
-import org.openflexo.ta.xx.model.XXText;
+import org.openflexo.pamela.annotations.XMLElement;
+import org.openflexo.ta.java.JavaTechnologyAdapter;
+import org.openflexo.ta.java.model.JavaLine;
 
 /**
- * A resource storing a {@link XXText}
+ * A role which allow to reference a line in a plain text file
  * 
  * @author sylvain
  *
  */
 @ModelEntity
-@ImplementationClass(XXTextResourceImpl.class)
-public interface XXTextResource extends TechnologyAdapterResource<XXText, XXTechnologyAdapter>, PamelaResource<XXText, XXModelFactory> {
+@ImplementationClass(JavaLineRole.JavaLineRoleImpl.class)
+@XMLElement
+@FML("JavaLineRole")
+public interface JavaLineRole extends FlexoRole<JavaLine> {
 
-	/**
-	 * Convenient method to retrieve resource data
-	 * 
-	 * @return
-	 */
-	public XXText getXXText();
+	public static abstract class JavaLineRoleImpl extends FlexoRoleImpl<JavaLine> implements JavaLineRole {
 
+		@Override
+		public Type getType() {
+			return JavaLine.class;
+		}
+
+		@Override
+		public RoleCloningStrategy defaultCloningStrategy() {
+			return RoleCloningStrategy.Reference;
+		}
+
+		@Override
+		public boolean defaultBehaviourIsToBeDeleted() {
+			return false;
+		}
+
+		@Override
+		public ActorReference<JavaLine> makeActorReference(JavaLine object, FlexoConceptInstance fci) {
+			AbstractVirtualModelInstanceModelFactory<?> factory = fci.getFactory();
+			JavaLineActorReference returned = factory.newInstance(JavaLineActorReference.class);
+			returned.setFlexoRole(this);
+			returned.setFlexoConceptInstance(fci);
+			returned.setModellingElement(object);
+			return returned;
+		}
+
+		@Override
+		public Class<JavaTechnologyAdapter> getRoleTechnologyAdapterClass() {
+			return JavaTechnologyAdapter.class;
+		}
+
+	}
 }

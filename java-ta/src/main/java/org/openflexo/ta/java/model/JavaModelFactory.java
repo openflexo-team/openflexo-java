@@ -36,7 +36,7 @@
  * 
  */
 
-package org.openflexo.ta.xx.model;
+package org.openflexo.ta.java.model;
 
 import java.util.logging.Logger;
 
@@ -47,41 +47,41 @@ import org.openflexo.pamela.ModelContextLibrary;
 import org.openflexo.pamela.exceptions.ModelDefinitionException;
 import org.openflexo.pamela.factory.EditingContext;
 import org.openflexo.pamela.factory.ModelFactory;
-import org.openflexo.ta.xx.rm.XXTextResource;
+import org.openflexo.ta.java.rm.JavaTextResource;
 
 /**
- * A {@link ModelFactory} used to manage a XXText<br>
- * One instance of this class should be used for each {@link XXTextResource}
+ * A {@link ModelFactory} used to manage a JavaText<br>
+ * One instance of this class should be used for each {@link JavaTextResource}
  * 
  * @author sylvain
  * 
  */
-public class XXModelFactory extends ModelFactory implements PamelaResourceModelFactory<XXTextResource> {
+public class JavaModelFactory extends ModelFactory implements PamelaResourceModelFactory<JavaTextResource> {
 
 	@SuppressWarnings("unused")
-	private static final Logger logger = Logger.getLogger(XXModelFactory.class.getPackage().getName());
+	private static final Logger logger = Logger.getLogger(JavaModelFactory.class.getPackage().getName());
 
-	private final XXTextResource resource;
+	private final JavaTextResource resource;
 	private IgnoreLoadingEdits ignoreHandler = null;
 	private FlexoUndoManager undoManager = null;
 
-	public XXModelFactory(XXTextResource resource, EditingContext editingContext) throws ModelDefinitionException {
-		super(ModelContextLibrary.getCompoundModelContext(XXText.class));
+	public JavaModelFactory(JavaTextResource resource, EditingContext editingContext) throws ModelDefinitionException {
+		super(ModelContextLibrary.getCompoundModelContext(JavaText.class));
 		this.resource = resource;
 		setEditingContext(editingContext);
 	}
 
 	@Override
-	public XXTextResource getResource() {
+	public JavaTextResource getResource() {
 		return resource;
 	}
 
-	public XXText makeXXText() {
-		return newInstance(XXText.class);
+	public JavaText makeJavaText() {
+		return newInstance(JavaText.class);
 	}
 
-	public XXLine makeXXLine(String value, int index) {
-		XXLine returned = newInstance(XXLine.class);
+	public JavaLine makeJavaLine(String value, int index) {
+		JavaLine returned = newInstance(JavaLine.class);
 		returned.setValue(value);
 		returned.setIndex(index);
 		return returned;

@@ -36,29 +36,23 @@
  * 
  */
 
-package org.openflexo.ta.xx.fml.editionaction;
+package org.openflexo.ta.java.fml.editionaction;
 
-import java.util.List;
-
-import org.openflexo.foundation.fml.annotations.FML;
-import org.openflexo.foundation.fml.editionaction.FetchRequest;
-import org.openflexo.pamela.annotations.ImplementationClass;
+import org.openflexo.foundation.fml.editionaction.TechnologySpecificActionDefiningReceiver;
 import org.openflexo.pamela.annotations.ModelEntity;
-import org.openflexo.pamela.annotations.XMLElement;
-import org.openflexo.ta.xx.XXModelSlot;
-import org.openflexo.ta.xx.model.XXLine;
-import org.openflexo.ta.xx.model.XXText;
+import org.openflexo.ta.java.JavaModelSlot;
+import org.openflexo.ta.java.model.JavaText;
 
 /**
- * A {@link FetchRequest} allowing to retrieve a selection of some {@link XXLine} matching some conditions
+ * Abstract action for {@link JavaModelSlot}
  * 
  * @author sylvain
  * 
+ * @param <T>
+ *            object type
  */
-@ModelEntity
-@ImplementationClass(SelectXXLine.AbstractSelectXXLineImpl.class)
-@XMLElement
-@FML("SelectXXLine")
-public interface SelectXXLine extends AbstractSelectXXLine<List<XXLine>>, FetchRequest<XXModelSlot, XXText, XXLine> {
+
+@ModelEntity(isAbstract = true)
+public interface JavaAction<T extends Object> extends TechnologySpecificActionDefiningReceiver<JavaModelSlot, JavaText, T> {
 
 }

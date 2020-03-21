@@ -36,7 +36,7 @@
  * 
  */
 
-package org.openflexo.ta.xx.fml.editionaction;
+package org.openflexo.ta.java.fml.editionaction;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Type;
@@ -55,15 +55,15 @@ import org.openflexo.pamela.annotations.PropertyIdentifier;
 import org.openflexo.pamela.annotations.Setter;
 import org.openflexo.pamela.annotations.XMLAttribute;
 import org.openflexo.pamela.annotations.XMLElement;
-import org.openflexo.ta.xx.XXModelSlot;
-import org.openflexo.ta.xx.model.XXLine;
-import org.openflexo.ta.xx.model.XXText;
+import org.openflexo.ta.java.JavaModelSlot;
+import org.openflexo.ta.java.model.JavaLine;
+import org.openflexo.ta.java.model.JavaText;
 
 @ModelEntity
-@ImplementationClass(AddXXLine.AddXXLineImpl.class)
+@ImplementationClass(AddJavaLine.AddJavaLineImpl.class)
 @XMLElement
-@FML("AddXXLine")
-public interface AddXXLine extends XXAction<XXLine> {
+@FML("AddJavaLine")
+public interface AddJavaLine extends JavaAction<JavaLine> {
 
 	@PropertyIdentifier(type = DataBinding.class)
 	public static final String LINE_NUMBER_KEY = "lineNumber";
@@ -75,24 +75,24 @@ public interface AddXXLine extends XXAction<XXLine> {
 	@Setter(LINE_NUMBER_KEY)
 	public void setLineNumber(DataBinding<Integer> lineNumber);
 
-	public static abstract class AddXXLineImpl extends TechnologySpecificActionDefiningReceiverImpl<XXModelSlot, XXText, XXLine>
-			implements AddXXLine {
+	public static abstract class AddJavaLineImpl extends TechnologySpecificActionDefiningReceiverImpl<JavaModelSlot, JavaText, JavaLine>
+			implements AddJavaLine {
 
-		private static final Logger logger = Logger.getLogger(AddXXLine.class.getPackage().getName());
+		private static final Logger logger = Logger.getLogger(AddJavaLine.class.getPackage().getName());
 
 		private DataBinding<Integer> lineNumber;
 
 		@Override
 		public Type getAssignableType() {
-			return XXLine.class;
+			return JavaLine.class;
 		}
 
 		@Override
-		public XXLine execute(RunTimeEvaluationContext evaluationContext) {
+		public JavaLine execute(RunTimeEvaluationContext evaluationContext) {
 
-			XXLine line = null;
+			JavaLine line = null;
 
-			XXText resourceData = getReceiver(evaluationContext);
+			JavaText resourceData = getReceiver(evaluationContext);
 
 			try {
 				if (resourceData != null) {
@@ -146,13 +146,13 @@ public interface AddXXLine extends XXAction<XXLine> {
 	}
 
 	@DefineValidationRule
-	public static class LineNumberBindingIsRequiredAndMustBeValid extends BindingIsRequiredAndMustBeValid<AddXXLine> {
+	public static class LineNumberBindingIsRequiredAndMustBeValid extends BindingIsRequiredAndMustBeValid<AddJavaLine> {
 		public LineNumberBindingIsRequiredAndMustBeValid() {
-			super("'lineNumber'_binding_is_required_and_must_be_valid", AddXXLine.class);
+			super("'lineNumber'_binding_is_required_and_must_be_valid", AddJavaLine.class);
 		}
 
 		@Override
-		public DataBinding<Integer> getBinding(AddXXLine object) {
+		public DataBinding<Integer> getBinding(AddJavaLine object) {
 			return object.getLineNumber();
 		}
 

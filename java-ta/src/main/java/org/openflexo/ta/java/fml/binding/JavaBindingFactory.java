@@ -36,7 +36,7 @@
  * 
  */
 
-package org.openflexo.ta.xx.fml.binding;
+package org.openflexo.ta.java.fml.binding;
 
 import java.util.List;
 import java.util.logging.Logger;

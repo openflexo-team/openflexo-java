@@ -36,7 +36,7 @@
  * 
  */
 
-package org.openflexo.ta.xx;
+package org.openflexo.ta.java;
 
 import java.lang.reflect.Type;
 import java.util.logging.Logger;
@@ -52,42 +52,42 @@ import org.openflexo.foundation.technologyadapter.ModelSlot;
 import org.openflexo.pamela.annotations.ImplementationClass;
 import org.openflexo.pamela.annotations.ModelEntity;
 import org.openflexo.pamela.annotations.XMLElement;
-import org.openflexo.ta.xx.fml.XXLineActorReference;
-import org.openflexo.ta.xx.fml.XXLineRole;
-import org.openflexo.ta.xx.fml.editionaction.AddXXLine;
-import org.openflexo.ta.xx.fml.editionaction.SelectUniqueXXLine;
-import org.openflexo.ta.xx.fml.editionaction.SelectXXLine;
-import org.openflexo.ta.xx.model.XXText;
+import org.openflexo.ta.java.fml.JavaLineActorReference;
+import org.openflexo.ta.java.fml.JavaLineRole;
+import org.openflexo.ta.java.fml.editionaction.AddJavaLine;
+import org.openflexo.ta.java.fml.editionaction.SelectUniqueJavaLine;
+import org.openflexo.ta.java.fml.editionaction.SelectJavaLine;
+import org.openflexo.ta.java.model.JavaText;
 
 /**
- * Implementation of the {@link ModelSlot} class for the XX technology adapter (plain text connector)
+ * Implementation of the {@link ModelSlot} class for the Java technology adapter (plain text connector)
  * 
  * @author sylvain
  * 
  */
-@DeclareFlexoRoles({ XXLineRole.class })
-@DeclareEditionActions({ AddXXLine.class })
-@DeclareFetchRequests({ SelectUniqueXXLine.class, SelectXXLine.class })
-@DeclareActorReferences({ XXLineActorReference.class })
+@DeclareFlexoRoles({ JavaLineRole.class })
+@DeclareEditionActions({ AddJavaLine.class })
+@DeclareFetchRequests({ SelectUniqueJavaLine.class, SelectJavaLine.class })
+@DeclareActorReferences({ JavaLineActorReference.class })
 @ModelEntity
-@ImplementationClass(XXModelSlot.XXModelSlotImpl.class)
+@ImplementationClass(JavaModelSlot.JavaModelSlotImpl.class)
 @XMLElement
-@FML("XXModelSlot")
-public interface XXModelSlot extends FreeModelSlot<XXText> {
+@FML("JavaModelSlot")
+public interface JavaModelSlot extends FreeModelSlot<JavaText> {
 
-	public static abstract class XXModelSlotImpl extends FreeModelSlotImpl<XXText> implements XXModelSlot {
+	public static abstract class JavaModelSlotImpl extends FreeModelSlotImpl<JavaText> implements JavaModelSlot {
 
 		@SuppressWarnings("unused")
-		private static final Logger logger = Logger.getLogger(XXModelSlot.class.getPackage().getName());
+		private static final Logger logger = Logger.getLogger(JavaModelSlot.class.getPackage().getName());
 
 		@Override
-		public Class<XXTechnologyAdapter> getTechnologyAdapterClass() {
-			return XXTechnologyAdapter.class;
+		public Class<JavaTechnologyAdapter> getTechnologyAdapterClass() {
+			return JavaTechnologyAdapter.class;
 		}
 
 		@Override
 		public <PR extends FlexoRole<?>> String defaultFlexoRoleName(Class<PR> patternRoleClass) {
-			if (XXLineRole.class.isAssignableFrom(patternRoleClass)) {
+			if (JavaLineRole.class.isAssignableFrom(patternRoleClass)) {
 				return "line";
 			}
 			return null;
@@ -95,12 +95,12 @@ public interface XXModelSlot extends FreeModelSlot<XXText> {
 
 		@Override
 		public Type getType() {
-			return XXText.class;
+			return JavaText.class;
 		}
 
 		@Override
-		public XXTechnologyAdapter getModelSlotTechnologyAdapter() {
-			return (XXTechnologyAdapter) super.getModelSlotTechnologyAdapter();
+		public JavaTechnologyAdapter getModelSlotTechnologyAdapter() {
+			return (JavaTechnologyAdapter) super.getModelSlotTechnologyAdapter();
 		}
 
 	}

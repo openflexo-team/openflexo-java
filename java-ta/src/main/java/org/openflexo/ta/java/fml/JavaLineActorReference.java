@@ -36,7 +36,7 @@
  * 
  */
 
-package org.openflexo.ta.xx.fml;
+package org.openflexo.ta.java.fml;
 
 import java.io.FileNotFoundException;
 import java.util.logging.Logger;
@@ -54,21 +54,21 @@ import org.openflexo.pamela.annotations.PropertyIdentifier;
 import org.openflexo.pamela.annotations.Setter;
 import org.openflexo.pamela.annotations.XMLAttribute;
 import org.openflexo.pamela.annotations.XMLElement;
-import org.openflexo.ta.xx.model.XXLine;
-import org.openflexo.ta.xx.model.XXText;
-import org.openflexo.ta.xx.rm.XXTextResource;
+import org.openflexo.ta.java.model.JavaLine;
+import org.openflexo.ta.java.model.JavaText;
+import org.openflexo.ta.java.rm.JavaTextResource;
 
 /**
- * Implements {@link ActorReference} for {@link XXLine} object
+ * Implements {@link ActorReference} for {@link JavaLine} object
  * 
  * @author sylvain
  * 
  */
 @ModelEntity
-@ImplementationClass(XXLineActorReference.XXLineActorReferenceImpl.class)
+@ImplementationClass(JavaLineActorReference.JavaLineActorReferenceImpl.class)
 @XMLElement
-@FML("XXLineActorReference")
-public interface XXLineActorReference extends ActorReference<XXLine> {
+@FML("JavaLineActorReference")
+public interface JavaLineActorReference extends ActorReference<JavaLine> {
 
 	@PropertyIdentifier(type = String.class)
 	public static final String OBJECT_URI_KEY = "objectURI";
@@ -80,17 +80,17 @@ public interface XXLineActorReference extends ActorReference<XXLine> {
 	@Setter(OBJECT_URI_KEY)
 	public void setObjectURI(String objectURI);
 
-	public abstract static class XXLineActorReferenceImpl extends ActorReferenceImpl<XXLine> implements XXLineActorReference {
+	public abstract static class JavaLineActorReferenceImpl extends ActorReferenceImpl<JavaLine> implements JavaLineActorReference {
 
-		private static final Logger logger = FlexoLogger.getLogger(XXLineActorReference.class.getPackage().toString());
+		private static final Logger logger = FlexoLogger.getLogger(JavaLineActorReference.class.getPackage().toString());
 
-		private XXLine object;
+		private JavaLine object;
 		private String objectURI;
 
-		public XXText getXXText() {
-			if (getXXTextResource() != null) {
+		public JavaText getJavaText() {
+			if (getJavaTextResource() != null) {
 				try {
-					return getXXTextResource().getResourceData();
+					return getJavaTextResource().getResourceData();
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
 				} catch (ResourceLoadingCancelledException e) {
@@ -102,19 +102,19 @@ public interface XXLineActorReference extends ActorReference<XXLine> {
 			return null;
 		}
 
-		public XXTextResource getXXTextResource() {
+		public JavaTextResource getJavaTextResource() {
 			ModelSlotInstance<?, ?> msInstance = getModelSlotInstance();
-			if (msInstance != null && msInstance.getResource() instanceof XXTextResource) {
-				return (XXTextResource) msInstance.getResource();
+			if (msInstance != null && msInstance.getResource() instanceof JavaTextResource) {
+				return (JavaTextResource) msInstance.getResource();
 			}
 			return null;
 		}
 
 		@Override
-		public XXLine getModellingElement(boolean forceLoading) {
+		public JavaLine getModellingElement(boolean forceLoading) {
 			if (object == null && objectURI != null) {
 				int index = Integer.parseInt(objectURI);
-				return getXXText().getLines().get(index);
+				return getJavaText().getLines().get(index);
 			}
 			if (object == null) {
 				logger.warning("Could not retrieve object " + objectURI);
@@ -124,7 +124,7 @@ public interface XXLineActorReference extends ActorReference<XXLine> {
 		}
 
 		@Override
-		public void setModellingElement(XXLine object) {
+		public void setModellingElement(JavaLine object) {
 			this.object = object;
 			if (object != null) {
 				objectURI = "" + object.getIndex();

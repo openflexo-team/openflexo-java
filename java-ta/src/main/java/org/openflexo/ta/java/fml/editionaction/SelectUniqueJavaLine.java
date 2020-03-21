@@ -36,64 +36,28 @@
  * 
  */
 
-package org.openflexo.ta.xx.fml;
+package org.openflexo.ta.java.fml.editionaction;
 
-import java.lang.reflect.Type;
-
-import org.openflexo.foundation.fml.FlexoRole;
 import org.openflexo.foundation.fml.annotations.FML;
-import org.openflexo.foundation.fml.rt.AbstractVirtualModelInstanceModelFactory;
-import org.openflexo.foundation.fml.rt.ActorReference;
-import org.openflexo.foundation.fml.rt.FlexoConceptInstance;
+import org.openflexo.foundation.fml.editionaction.FetchRequest;
+import org.openflexo.foundation.fml.editionaction.UniqueFetchRequest;
 import org.openflexo.pamela.annotations.ImplementationClass;
 import org.openflexo.pamela.annotations.ModelEntity;
 import org.openflexo.pamela.annotations.XMLElement;
-import org.openflexo.ta.xx.XXTechnologyAdapter;
-import org.openflexo.ta.xx.model.XXLine;
+import org.openflexo.ta.java.JavaModelSlot;
+import org.openflexo.ta.java.model.JavaLine;
+import org.openflexo.ta.java.model.JavaText;
 
 /**
- * A role which allow to reference a line in a plain text file
+ * A {@link FetchRequest} allowing to retrieve a unique {@link JavaLine} matching some conditions
  * 
  * @author sylvain
- *
+ * 
  */
 @ModelEntity
-@ImplementationClass(XXLineRole.XXLineRoleImpl.class)
+@ImplementationClass(SelectUniqueJavaLine.AbstractSelectJavaLineImpl.class)
 @XMLElement
-@FML("XXLineRole")
-public interface XXLineRole extends FlexoRole<XXLine> {
+@FML("SelectUniqueXXLine")
+public interface SelectUniqueJavaLine extends AbstractSelectJavaLine<JavaLine>, UniqueFetchRequest<JavaModelSlot, JavaText, JavaLine> {
 
-	public static abstract class XXLineRoleImpl extends FlexoRoleImpl<XXLine> implements XXLineRole {
-
-		@Override
-		public Type getType() {
-			return XXLine.class;
-		}
-
-		@Override
-		public RoleCloningStrategy defaultCloningStrategy() {
-			return RoleCloningStrategy.Reference;
-		}
-
-		@Override
-		public boolean defaultBehaviourIsToBeDeleted() {
-			return false;
-		}
-
-		@Override
-		public ActorReference<XXLine> makeActorReference(XXLine object, FlexoConceptInstance fci) {
-			AbstractVirtualModelInstanceModelFactory<?> factory = fci.getFactory();
-			XXLineActorReference returned = factory.newInstance(XXLineActorReference.class);
-			returned.setFlexoRole(this);
-			returned.setFlexoConceptInstance(fci);
-			returned.setModellingElement(object);
-			return returned;
-		}
-
-		@Override
-		public Class<XXTechnologyAdapter> getRoleTechnologyAdapterClass() {
-			return XXTechnologyAdapter.class;
-		}
-
-	}
 }

@@ -36,7 +36,7 @@
  * 
  */
 
-package org.openflexo.ta.xx.model;
+package org.openflexo.ta.java.model;
 
 import java.util.List;
 import java.util.logging.Logger;
@@ -49,7 +49,7 @@ import org.openflexo.pamela.annotations.CloningStrategy.StrategyType;
 import org.openflexo.pamela.annotations.Embedded;
 import org.openflexo.pamela.annotations.Getter;
 import org.openflexo.pamela.annotations.Getter.Cardinality;
-import org.openflexo.ta.xx.rm.XXTextResource;
+import org.openflexo.ta.java.rm.JavaTextResource;
 import org.openflexo.pamela.annotations.ImplementationClass;
 import org.openflexo.pamela.annotations.ModelEntity;
 import org.openflexo.pamela.annotations.PastingPoint;
@@ -58,19 +58,19 @@ import org.openflexo.pamela.annotations.Remover;
 import org.openflexo.pamela.annotations.XMLElement;
 
 /**
- * Represents the {@link ResourceData} deserialized from a {@link XXTextResource}<br>
+ * Represents the {@link ResourceData} deserialized from a {@link JavaTextResource}<br>
  * 
  * Note: Purpose of that class is to demonstrate API of a {@link TechnologyAdapter}, thus the semantics is here pretty simple: a
- * {@link XXText} is a plain text file contents, serialized as a {@link String}
+ * {@link JavaText} is a plain text file contents, serialized as a {@link String}
  * 
  * @author sylvain
  *
  */
 @ModelEntity
-@ImplementationClass(value = XXText.XXTextImpl.class)
-public interface XXText extends XXObject, ResourceData<XXText> {
+@ImplementationClass(value = JavaText.JavaTextImpl.class)
+public interface JavaText extends JavaObject, ResourceData<JavaText> {
 
-	@PropertyIdentifier(type = XXLine.class, cardinality = Cardinality.LIST)
+	@PropertyIdentifier(type = JavaLine.class, cardinality = Cardinality.LIST)
 	public static final String LINES_KEY = "lines";
 
 	/**
@@ -81,49 +81,49 @@ public interface XXText extends XXObject, ResourceData<XXText> {
 	public String getContents();
 
 	/**
-	 * Return all {@link XXLine} defined in this {@link XXText}
+	 * Return all {@link JavaLine} defined in this {@link JavaText}
 	 * 
 	 * @return
 	 */
-	@Getter(value = LINES_KEY, cardinality = Cardinality.LIST, inverse = XXLine.XX_TEXT_KEY)
+	@Getter(value = LINES_KEY, cardinality = Cardinality.LIST, inverse = JavaLine.JAVA_TEXT_KEY)
 	@XMLElement
 	@Embedded
 	@CloningStrategy(StrategyType.CLONE)
-	public List<XXLine> getLines();
+	public List<JavaLine> getLines();
 
 	@Adder(LINES_KEY)
 	@PastingPoint
-	public void addToLines(XXLine aLine);
+	public void addToLines(JavaLine aLine);
 
 	@Remover(LINES_KEY)
-	public void removeFromLines(XXLine aLine);
+	public void removeFromLines(JavaLine aLine);
 
 	@Override
-	public XXTextResource getResource();
+	public JavaTextResource getResource();
 
 	/**
-	 * Default base implementation for {@link XXText}
+	 * Default base implementation for {@link JavaText}
 	 * 
 	 * @author sylvain
 	 *
 	 */
-	public static abstract class XXTextImpl extends XXObjectImpl implements XXText {
+	public static abstract class JavaTextImpl extends JavaObjectImpl implements JavaText {
 
 		@SuppressWarnings("unused")
-		private static final Logger logger = Logger.getLogger(XXObjectImpl.class.getPackage().getName());
+		private static final Logger logger = Logger.getLogger(JavaObjectImpl.class.getPackage().getName());
 
 		public static final String ALL_KEY = "All";
 
 		private String contents = null;
 
 		@Override
-		public XXText getResourceData() {
+		public JavaText getResourceData() {
 			return this;
 		}
 
 		@Override
-		public XXTextResource getResource() {
-			return (XXTextResource) performSuperGetter(FLEXO_RESOURCE);
+		public JavaTextResource getResource() {
+			return (JavaTextResource) performSuperGetter(FLEXO_RESOURCE);
 		}
 
 		@Override
@@ -135,8 +135,8 @@ public interface XXText extends XXObject, ResourceData<XXText> {
 		public String getContents() {
 			if (contents == null) {
 				StringBuffer sb = new StringBuffer();
-				for (XXLine xxLine : getLines()) {
-					sb.append(xxLine.getValue() + "\n");
+				for (JavaLine javaLine : getLines()) {
+					sb.append(javaLine.getValue() + "\n");
 				}
 				contents = sb.toString();
 			}
@@ -148,13 +148,13 @@ public interface XXText extends XXObject, ResourceData<XXText> {
 		}
 
 		@Override
-		public void addToLines(XXLine aLine) {
+		public void addToLines(JavaLine aLine) {
 			performSuperAdder(LINES_KEY, aLine);
 			clearContents();
 		}
 
 		@Override
-		public void removeFromLines(XXLine aLine) {
+		public void removeFromLines(JavaLine aLine) {
 			performSuperRemover(LINES_KEY, aLine);
 			clearContents();
 		}

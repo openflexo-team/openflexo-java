@@ -36,39 +36,39 @@
  * 
  */
 
-package org.openflexo.ta.xx.model;
+package org.openflexo.ta.java.model;
 
 import java.util.logging.Logger;
 
 import org.openflexo.foundation.InnerResourceData;
 import org.openflexo.foundation.technologyadapter.TechnologyObject;
 import org.openflexo.pamela.annotations.ModelEntity;
-import org.openflexo.ta.xx.XXTechnologyAdapter;
+import org.openflexo.ta.java.JavaTechnologyAdapter;
 
 /**
- * Common API for all objects involved in XX model
+ * Common API for all objects involved in Java model
  * 
  * @author sylvain
  *
  */
 @ModelEntity(isAbstract = true)
-public interface XXObject extends InnerResourceData<XXText>, TechnologyObject<XXTechnologyAdapter> {
+public interface JavaObject extends InnerResourceData<JavaText>, TechnologyObject<JavaTechnologyAdapter> {
 
-	public XXModelFactory getFactory();
+	public JavaModelFactory getFactory();
 
 	/**
-	 * Default base implementation for {@link XXObject}
+	 * Default base implementation for {@link JavaObject}
 	 * 
 	 * @author sylvain
 	 *
 	 */
-	public static abstract class XXObjectImpl extends FlexoObjectImpl implements XXObject {
+	public static abstract class JavaObjectImpl extends FlexoObjectImpl implements JavaObject {
 
 		@SuppressWarnings("unused")
-		private static final Logger logger = Logger.getLogger(XXObjectImpl.class.getPackage().getName());
+		private static final Logger logger = Logger.getLogger(JavaObjectImpl.class.getPackage().getName());
 
 		@Override
-		public XXTechnologyAdapter getTechnologyAdapter() {
+		public JavaTechnologyAdapter getTechnologyAdapter() {
 			if (getResourceData() != null && getResourceData().getResource() != null) {
 				return getResourceData().getResource().getTechnologyAdapter();
 			}
@@ -76,7 +76,7 @@ public interface XXObject extends InnerResourceData<XXText>, TechnologyObject<XX
 		}
 
 		@Override
-		public XXModelFactory getFactory() {
+		public JavaModelFactory getFactory() {
 			return getResourceData().getResource().getFactory();
 		}
 

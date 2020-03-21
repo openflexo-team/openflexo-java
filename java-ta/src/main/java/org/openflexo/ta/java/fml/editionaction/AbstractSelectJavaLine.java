@@ -36,28 +36,58 @@
  * 
  */
 
-package org.openflexo.ta.xx.fml.editionaction;
+package org.openflexo.ta.java.fml.editionaction;
 
-import org.openflexo.foundation.fml.annotations.FML;
-import org.openflexo.foundation.fml.editionaction.FetchRequest;
-import org.openflexo.foundation.fml.editionaction.UniqueFetchRequest;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Logger;
+
+import org.openflexo.foundation.fml.editionaction.AbstractFetchRequest;
+import org.openflexo.foundation.fml.rt.RunTimeEvaluationContext;
 import org.openflexo.pamela.annotations.ImplementationClass;
 import org.openflexo.pamela.annotations.ModelEntity;
-import org.openflexo.pamela.annotations.XMLElement;
-import org.openflexo.ta.xx.XXModelSlot;
-import org.openflexo.ta.xx.model.XXLine;
-import org.openflexo.ta.xx.model.XXText;
+import org.openflexo.ta.java.JavaModelSlot;
+import org.openflexo.ta.java.model.JavaLine;
+import org.openflexo.ta.java.model.JavaText;
 
 /**
- * A {@link FetchRequest} allowing to retrieve a unique {@link XXLine} matching some conditions
+ * Generic {@link AbstractFetchRequest} allowing to retrieve a selection of some {@link JavaLine} matching some conditions
  * 
  * @author sylvain
- * 
+ *
+ * @param <AT>
  */
-@ModelEntity
-@ImplementationClass(SelectUniqueXXLine.AbstractSelectXXLineImpl.class)
-@XMLElement
-@FML("SelectUniqueXXLine")
-public interface SelectUniqueXXLine extends AbstractSelectXXLine<XXLine>, UniqueFetchRequest<XXModelSlot, XXText, XXLine> {
+@ModelEntity(isAbstract = true)
+@ImplementationClass(AbstractSelectJavaLine.AbstractSelectJavaLineImpl.class)
+public interface AbstractSelectJavaLine<AT> extends AbstractFetchRequest<JavaModelSlot, JavaText, JavaLine, AT> {
 
+	public static abstract class AbstractSelectJavaLineImpl<AT> extends AbstractFetchRequestImpl<JavaModelSlot, JavaText, JavaLine, AT>
+			implements AbstractSelectJavaLine<AT> {
+
+		@SuppressWarnings("unused")
+		private static final Logger logger = Logger.getLogger(AbstractSelectJavaLine.class.getPackage().getName());
+
+		@Override
+		public Type getFetchedType() {
+			return JavaLine.class;
+		}
+
+		@Override
+		public List<JavaLine> performExecute(RunTimeEvaluationContext evaluationContext) {
+
+			List<JavaLine> selectedLines = new ArrayList<>();
+			JavaText resourceData = getReceiver(evaluationContext);
+
+			if (resourceData != null) {
+				selectedLines.addAll(resourceData.getLines());
+			}
+
+			List<JavaLine> returned = filterWithConditions(selectedLines, evaluationContext);
+
+			return returned;
+
+		}
+
+	}
 }

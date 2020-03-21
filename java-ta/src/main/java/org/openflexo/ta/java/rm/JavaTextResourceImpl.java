@@ -36,7 +36,7 @@
  * 
  */
 
-package org.openflexo.ta.xx.rm;
+package org.openflexo.ta.java.rm;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -59,20 +59,20 @@ import org.openflexo.foundation.resource.ResourceData;
 import org.openflexo.foundation.resource.ResourceLoadingCancelledException;
 import org.openflexo.foundation.resource.SaveResourceException;
 import org.openflexo.foundation.resource.StreamIODelegate;
-import org.openflexo.ta.xx.model.XXLine;
-import org.openflexo.ta.xx.model.XXModelFactory;
-import org.openflexo.ta.xx.model.XXText;
+import org.openflexo.ta.java.model.JavaLine;
+import org.openflexo.ta.java.model.JavaModelFactory;
+import org.openflexo.ta.java.model.JavaText;
 import org.openflexo.toolbox.FileUtils;
 
 /**
- * Default implementation for a resource storing a {@link XXText}
+ * Default implementation for a resource storing a {@link JavaText}
  * 
  * @author sylvain
  *
  */
-public abstract class XXTextResourceImpl extends PamelaResourceImpl<XXText, XXModelFactory> implements XXTextResource {
+public abstract class JavaTextResourceImpl extends PamelaResourceImpl<JavaText, JavaModelFactory> implements JavaTextResource {
 
-	private static final Logger logger = Logger.getLogger(XXTextResourceImpl.class.getPackage().getName());
+	private static final Logger logger = Logger.getLogger(JavaTextResourceImpl.class.getPackage().getName());
 
 	/**
 	 * Convenient method to retrieve resource data
@@ -80,7 +80,7 @@ public abstract class XXTextResourceImpl extends PamelaResourceImpl<XXText, XXMo
 	 * @return
 	 */
 	@Override
-	public XXText getXXText() {
+	public JavaText getJavaText() {
 		try {
 			return getResourceData();
 		} catch (ResourceLoadingCancelledException e) {
@@ -102,13 +102,13 @@ public abstract class XXTextResourceImpl extends PamelaResourceImpl<XXText, XXMo
 	 * @throws IOFlexoException
 	 */
 	@Override
-	public XXText loadResourceData() throws IOFlexoException {
+	public JavaText loadResourceData() throws IOFlexoException {
 
 		if (getFlexoIOStreamDelegate() == null) {
 			throw new IOFlexoException("Cannot load document with this IO/delegate: " + getIODelegate());
 		}
 
-		XXText resourceData = null;
+		JavaText resourceData = null;
 		try {
 			resourceData = load(getFlexoIOStreamDelegate());
 			getInputStream().close();
@@ -139,8 +139,8 @@ public abstract class XXTextResourceImpl extends PamelaResourceImpl<XXText, XXMo
 	 * Return type of {@link ResourceData}
 	 */
 	@Override
-	public Class<XXText> getResourceDataClass() {
-		return XXText.class;
+	public Class<JavaText> getResourceDataClass() {
+		return JavaText.class;
 	}
 
 	/**
@@ -207,9 +207,9 @@ public abstract class XXTextResourceImpl extends PamelaResourceImpl<XXText, XXMo
 	 * @return
 	 * @throws IOException
 	 */
-	private <I> XXText load(StreamIODelegate<I> ioDelegate) throws IOException {
+	private <I> JavaText load(StreamIODelegate<I> ioDelegate) throws IOException {
 
-		XXText returned = getFactory().makeXXText();
+		JavaText returned = getFactory().makeJavaText();
 		try (BufferedReader br = new BufferedReader(new InputStreamReader(ioDelegate.getInputStream()))) {
 			int index = 0;
 			String nextLine = null;
@@ -217,7 +217,7 @@ public abstract class XXTextResourceImpl extends PamelaResourceImpl<XXText, XXMo
 				nextLine = br.readLine();
 				if (nextLine != null) {
 					System.out.println("Ligne lue : " + nextLine);
-					XXLine newLine = getFactory().makeXXLine(nextLine, index);
+					JavaLine newLine = getFactory().makeJavaLine(nextLine, index);
 					returned.addToLines(newLine);
 					index++;
 				}
@@ -235,7 +235,7 @@ public abstract class XXTextResourceImpl extends PamelaResourceImpl<XXText, XXMo
 	private void write(OutputStream out) throws SaveResourceException {
 		logger.info("Writing " + getIODelegate().getSerializationArtefact());
 		try (BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(out))) {
-			for (XXLine line : getXXText().getLines()) {
+			for (JavaLine line : getJavaText().getLines()) {
 				bw.write(line.getValue());
 				bw.newLine();
 			}

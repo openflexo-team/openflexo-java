@@ -36,7 +36,7 @@
  * 
  */
 
-package org.openflexo.ta.xx.rm;
+package org.openflexo.ta.java.rm;
 
 import java.util.logging.Logger;
 
@@ -45,31 +45,31 @@ import org.openflexo.foundation.resource.FlexoResourceFactory;
 import org.openflexo.foundation.resource.TechnologySpecificPamelaResourceFactory;
 import org.openflexo.foundation.technologyadapter.TechnologyContextManager;
 import org.openflexo.pamela.exceptions.ModelDefinitionException;
-import org.openflexo.ta.xx.XXTechnologyAdapter;
-import org.openflexo.ta.xx.model.XXModelFactory;
-import org.openflexo.ta.xx.model.XXText;
+import org.openflexo.ta.java.JavaTechnologyAdapter;
+import org.openflexo.ta.java.model.JavaModelFactory;
+import org.openflexo.ta.java.model.JavaText;
 
 /**
- * Implementation of {@link FlexoResourceFactory} for {@link XXTextResource}
+ * Implementation of {@link FlexoResourceFactory} for {@link JavaTextResource}
  * 
  * @author sylvain
  *
  */
-public class XXTextResourceFactory
-		extends TechnologySpecificPamelaResourceFactory<XXTextResource, XXText, XXTechnologyAdapter, XXModelFactory> {
+public class JavaTextResourceFactory
+		extends TechnologySpecificPamelaResourceFactory<JavaTextResource, JavaText, JavaTechnologyAdapter, JavaModelFactory> {
 
 	@SuppressWarnings("unused")
-	private static final Logger logger = Logger.getLogger(XXTextResourceFactory.class.getPackage().getName());
+	private static final Logger logger = Logger.getLogger(JavaTextResourceFactory.class.getPackage().getName());
 
 	public static String TXT_FILE_EXTENSION = ".txt";
 
-	public XXTextResourceFactory() throws ModelDefinitionException {
-		super(XXTextResource.class);
+	public JavaTextResourceFactory() throws ModelDefinitionException {
+		super(JavaTextResource.class);
 	}
 
 	@Override
-	public XXText makeEmptyResourceData(XXTextResource resource) {
-		return resource.getFactory().makeXXText();
+	public JavaText makeEmptyResourceData(JavaTextResource resource) {
+		return resource.getFactory().makeJavaText();
 	}
 
 	@Override
@@ -79,20 +79,20 @@ public class XXTextResourceFactory
 	}
 
 	@Override
-	protected <I> XXTextResource registerResource(XXTextResource resource, FlexoResourceCenter<I> resourceCenter) {
+	protected <I> JavaTextResource registerResource(JavaTextResource resource, FlexoResourceCenter<I> resourceCenter) {
 		super.registerResource(resource, resourceCenter);
 
 		// Register the resource in the repository of supplied resource center
 		registerResourceInResourceRepository(resource,
-				getTechnologyAdapter(resourceCenter.getServiceManager()).getXXResourceRepository(resourceCenter));
+				getTechnologyAdapter(resourceCenter.getServiceManager()).getJavaResourceRepository(resourceCenter));
 
 		return resource;
 	}
 
 	@Override
-	public XXModelFactory makeModelFactory(XXTextResource resource, TechnologyContextManager<XXTechnologyAdapter> technologyContextManager)
+	public JavaModelFactory makeModelFactory(JavaTextResource resource, TechnologyContextManager<JavaTechnologyAdapter> technologyContextManager)
 			throws ModelDefinitionException {
-		return new XXModelFactory(resource, technologyContextManager.getServiceManager().getEditingContext());
+		return new JavaModelFactory(resource, technologyContextManager.getServiceManager().getEditingContext());
 	}
 
 }

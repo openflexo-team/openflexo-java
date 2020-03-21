@@ -36,7 +36,7 @@
  * 
  */
 
-package org.openflexo.ta.xx;
+package org.openflexo.ta.java;
 
 import java.util.logging.Logger;
 
@@ -44,9 +44,9 @@ import org.openflexo.foundation.fml.annotations.DeclareModelSlots;
 import org.openflexo.foundation.fml.annotations.DeclareResourceFactories;
 import org.openflexo.foundation.resource.FlexoResourceCenter;
 import org.openflexo.foundation.technologyadapter.TechnologyAdapter;
-import org.openflexo.ta.xx.fml.binding.JavaBindingFactory;
-import org.openflexo.ta.xx.rm.XXTextResourceFactory;
-import org.openflexo.ta.xx.rm.XXTextResourceRepository;
+import org.openflexo.ta.java.fml.binding.JavaBindingFactory;
+import org.openflexo.ta.java.rm.JavaTextResourceFactory;
+import org.openflexo.ta.java.rm.JavaTextResourceRepository;
 
 /**
  * This class defines and implements an archetype of a technology adapter<br>
@@ -58,31 +58,31 @@ import org.openflexo.ta.xx.rm.XXTextResourceRepository;
  * @author sylvain
  * 
  */
-@DeclareModelSlots({ XXModelSlot.class })
+@DeclareModelSlots({ JavaModelSlot.class })
 // You might declare your own types here
 // @DeclareTechnologySpecificTypes({ YourCustomType.class })
-@DeclareResourceFactories({ XXTextResourceFactory.class })
-public class XXTechnologyAdapter extends TechnologyAdapter<XXTechnologyAdapter> {
+@DeclareResourceFactories({ JavaTextResourceFactory.class })
+public class JavaTechnologyAdapter extends TechnologyAdapter<JavaTechnologyAdapter> {
 
 	@SuppressWarnings("unused")
-	private static final Logger logger = Logger.getLogger(XXTechnologyAdapter.class.getPackage().getName());
+	private static final Logger logger = Logger.getLogger(JavaTechnologyAdapter.class.getPackage().getName());
 
 	private static final JavaBindingFactory BINDING_FACTORY = new JavaBindingFactory();
 
 	@Override
 	public String getName() {
-		return "XX technology adapter";
+		return "Java technology adapter";
 	}
 
 	@Override
 	protected String getLocalizationDirectory() {
-		return "FlexoLocalization/XXTechnologyAdapter";
+		return "FlexoLocalization/JavaTechnologyAdapter";
 	}
 
 	@Override
 	public void ensureAllRepositoriesAreCreated(FlexoResourceCenter<?> rc) {
 		super.ensureAllRepositoriesAreCreated(rc);
-		getXXResourceRepository(rc);
+		getJavaResourceRepository(rc);
 
 	}
 
@@ -99,19 +99,19 @@ public class XXTechnologyAdapter extends TechnologyAdapter<XXTechnologyAdapter> 
 
 	@Override
 	public String getIdentifier() {
-		return "XX";
+		return "Java";
 	}
 
-	public XXTextResourceFactory getXXResourceFactory() {
-		return getResourceFactory(XXTextResourceFactory.class);
+	public JavaTextResourceFactory getJavaResourceFactory() {
+		return getResourceFactory(JavaTextResourceFactory.class);
 	}
 
 	@SuppressWarnings("unchecked")
-	public <I> XXTextResourceRepository<I> getXXResourceRepository(FlexoResourceCenter<I> resourceCenter) {
-		XXTextResourceRepository<I> returned = resourceCenter.retrieveRepository(XXTextResourceRepository.class, this);
+	public <I> JavaTextResourceRepository<I> getJavaResourceRepository(FlexoResourceCenter<I> resourceCenter) {
+		JavaTextResourceRepository<I> returned = resourceCenter.retrieveRepository(JavaTextResourceRepository.class, this);
 		if (returned == null) {
-			returned = XXTextResourceRepository.instanciateNewRepository(this, resourceCenter);
-			resourceCenter.registerRepository(returned, XXTextResourceRepository.class, this);
+			returned = JavaTextResourceRepository.instanciateNewRepository(this, resourceCenter);
+			resourceCenter.registerRepository(returned, JavaTextResourceRepository.class, this);
 		}
 		return returned;
 	}
