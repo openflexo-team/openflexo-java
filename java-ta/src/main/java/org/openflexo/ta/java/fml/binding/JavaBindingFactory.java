@@ -54,7 +54,7 @@ import org.openflexo.foundation.technologyadapter.TechnologyAdapterBindingFactor
  * 
  * This technology actually defines no types
  * 
- * @author sylvain
+* @author sylvain, victor
  *
  */
 public final class JavaBindingFactory extends TechnologyAdapterBindingFactory {

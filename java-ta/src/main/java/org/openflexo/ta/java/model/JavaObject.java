@@ -48,7 +48,7 @@ import org.openflexo.ta.java.JavaTechnologyAdapter;
 /**
  * Common API for all objects involved in Java model
  * 
- * @author sylvain
+* @author sylvain, victor
  *
  */
 @ModelEntity(isAbstract = true)
@@ -59,7 +59,7 @@ public interface JavaObject extends InnerResourceData<JavaText>, TechnologyObjec
 	/**
 	 * Default base implementation for {@link JavaObject}
 	 * 
-	 * @author sylvain
+* @author sylvain, victor
 	 *
 	 */
 	public static abstract class JavaObjectImpl extends FlexoObjectImpl implements JavaObject {

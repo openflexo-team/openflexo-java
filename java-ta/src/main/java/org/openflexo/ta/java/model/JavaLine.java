@@ -55,7 +55,7 @@ import org.openflexo.pamela.annotations.XMLElement;
  * {@link JavaText} is a plain text file contents, serialized as a {@link String}, and a {@link JavaLine} is a line of that file, represented as
  * a String
  * 
- * @author sylvain
+* @author sylvain, victor
  *
  */
 @ModelEntity
@@ -121,7 +121,7 @@ public interface JavaLine extends JavaObject {
 	/**
 	 * Default base implementation for {@link JavaLine}
 	 * 
-	 * @author sylvain
+* @author sylvain, victor
 	 *
 	 */
 	public static abstract class JavaLineImpl extends JavaObjectImpl implements JavaLine {

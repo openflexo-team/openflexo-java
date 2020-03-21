@@ -67,7 +67,7 @@ import org.openflexo.toolbox.FileUtils;
 /**
  * Default implementation for a resource storing a {@link JavaText}
  * 
- * @author sylvain
+* @author sylvain, victor
  *
  */
 public abstract class JavaTextResourceImpl extends PamelaResourceImpl<JavaText, JavaModelFactory> implements JavaTextResource {

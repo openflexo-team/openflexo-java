@@ -49,7 +49,7 @@ import org.openflexo.ta.java.model.JavaText;
 /**
  * A resource storing a {@link JavaText}
  * 
- * @author sylvain
+* @author sylvain, victor
  *
  */
 @ModelEntity

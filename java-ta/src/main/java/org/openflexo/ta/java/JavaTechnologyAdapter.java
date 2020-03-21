@@ -55,7 +55,7 @@ import org.openflexo.ta.java.rm.JavaTextResourceRepository;
  * 
  * We offer the connection to a text file with a single role mapping a line in a text file
  * 
- * @author sylvain
+* @author sylvain, victor
  * 
  */
 @DeclareModelSlots({ JavaModelSlot.class })

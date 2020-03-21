@@ -62,7 +62,7 @@ import org.openflexo.ta.java.model.JavaText;
 /**
  * Implementation of the {@link ModelSlot} class for the Java technology adapter (plain text connector)
  * 
- * @author sylvain
+* @author sylvain, victor
  * 
  */
 @DeclareFlexoRoles({ JavaLineRole.class })

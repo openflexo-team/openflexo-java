@@ -51,7 +51,7 @@ import org.openflexo.ta.java.model.JavaText;
  * 
  * A repository which references some {@link JavaTextResource}
  * 
- * @author sylvain
+* @author sylvain, victor
  * 
  */
 @ModelEntity

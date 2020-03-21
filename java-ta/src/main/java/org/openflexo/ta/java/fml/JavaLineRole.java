@@ -54,7 +54,7 @@ import org.openflexo.ta.java.model.JavaLine;
 /**
  * A role which allow to reference a line in a plain text file
  * 
- * @author sylvain
+* @author sylvain, victor
  *
  */
 @ModelEntity

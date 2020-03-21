@@ -53,7 +53,7 @@ import org.openflexo.ta.java.rm.JavaTextResource;
  * A {@link ModelFactory} used to manage a JavaText<br>
  * One instance of this class should be used for each {@link JavaTextResource}
  * 
- * @author sylvain
+* @author sylvain, victor
  * 
  */
 public class JavaModelFactory extends ModelFactory implements PamelaResourceModelFactory<JavaTextResource> {

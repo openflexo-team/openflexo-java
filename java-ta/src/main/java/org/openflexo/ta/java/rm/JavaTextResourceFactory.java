@@ -52,7 +52,7 @@ import org.openflexo.ta.java.model.JavaText;
 /**
  * Implementation of {@link FlexoResourceFactory} for {@link JavaTextResource}
  * 
- * @author sylvain
+* @author sylvain, victor
  *
  */
 public class JavaTextResourceFactory

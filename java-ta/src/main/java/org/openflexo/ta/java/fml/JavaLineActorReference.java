@@ -61,7 +61,7 @@ import org.openflexo.ta.java.rm.JavaTextResource;
 /**
  * Implements {@link ActorReference} for {@link JavaLine} object
  * 
- * @author sylvain
+* @author sylvain, victor
  * 
  */
 @ModelEntity

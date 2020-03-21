@@ -63,7 +63,7 @@ import org.openflexo.pamela.annotations.XMLElement;
  * Note: Purpose of that class is to demonstrate API of a {@link TechnologyAdapter}, thus the semantics is here pretty simple: a
  * {@link JavaText} is a plain text file contents, serialized as a {@link String}
  * 
- * @author sylvain
+* @author sylvain, victor
  *
  */
 @ModelEntity
@@ -104,7 +104,7 @@ public interface JavaText extends JavaObject, ResourceData<JavaText> {
 	/**
 	 * Default base implementation for {@link JavaText}
 	 * 
-	 * @author sylvain
+* @author sylvain, victor
 	 *
 	 */
 	public static abstract class JavaTextImpl extends JavaObjectImpl implements JavaText {

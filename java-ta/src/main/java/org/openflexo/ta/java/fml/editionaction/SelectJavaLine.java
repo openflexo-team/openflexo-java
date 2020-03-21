@@ -52,7 +52,7 @@ import org.openflexo.ta.java.model.JavaText;
 /**
  * A {@link FetchRequest} allowing to retrieve a selection of some {@link JavaLine} matching some conditions
  * 
- * @author sylvain
+* @author sylvain, victor
  * 
  */
 @ModelEntity

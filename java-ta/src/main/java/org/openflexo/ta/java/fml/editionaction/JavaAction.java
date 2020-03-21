@@ -46,7 +46,7 @@ import org.openflexo.ta.java.model.JavaText;
 /**
  * Abstract action for {@link JavaModelSlot}
  * 
- * @author sylvain
+* @author sylvain, victor
  * 
  * @param <T>
  *            object type
