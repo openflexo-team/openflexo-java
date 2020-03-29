@@ -36,7 +36,7 @@
  * 
  */
 
-package org.openflexo.ta.xx.view;
+package org.openflexo.ta.java.view;
 
 import java.awt.BorderLayout;
 import java.util.List;
@@ -48,27 +48,27 @@ import javax.swing.JTextArea;
 
 import org.openflexo.foundation.FlexoObject;
 import org.openflexo.selection.SelectionListener;
-import org.openflexo.ta.xx.model.XXText;
+import org.openflexo.ta.java.model.JavaText;
 import org.openflexo.view.SelectionSynchronizedModuleView;
 import org.openflexo.view.controller.FlexoController;
 import org.openflexo.view.controller.model.FlexoPerspective;
 
 /**
- * This class represent the module view for a XXText.<br>
+ * This class represent the module view for a JavaText.<br>
  * 
  * @author sylvain
  * 
  */
 @SuppressWarnings("serial")
-public class XXTextView extends JPanel implements SelectionSynchronizedModuleView<XXText> {
+public class JavaTextView extends JPanel implements SelectionSynchronizedModuleView<JavaText> {
 
-	private final XXText text;
+	private final JavaText text;
 	private final FlexoPerspective declaredPerspective;
 
 	private final FlexoController controller;
 	private JTextArea textArea;
 
-	public XXTextView(XXText text, FlexoController controller, FlexoPerspective perspective) {
+	public JavaTextView(JavaText text, FlexoController controller, FlexoPerspective perspective) {
 		super(new BorderLayout());
 		this.controller = controller;
 		declaredPerspective = perspective;
@@ -114,7 +114,7 @@ public class XXTextView extends JPanel implements SelectionSynchronizedModuleVie
 	}
 
 	@Override
-	public XXText getRepresentedObject() {
+	public JavaText getRepresentedObject() {
 		return text;
 	}
 

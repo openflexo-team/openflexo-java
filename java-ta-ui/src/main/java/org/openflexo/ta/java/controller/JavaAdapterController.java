@@ -36,7 +36,7 @@
  * 
  */
 
-package org.openflexo.ta.xx.controller;
+package org.openflexo.ta.java.controller;
 
 import java.util.logging.Logger;
 
@@ -48,15 +48,15 @@ import org.openflexo.foundation.technologyadapter.TechnologyObject;
 import org.openflexo.gina.utils.InspectorGroup;
 import org.openflexo.icon.IconFactory;
 import org.openflexo.icon.IconLibrary;
-import org.openflexo.ta.xx.XXTechnologyAdapter;
-import org.openflexo.ta.xx.fml.XXLineRole;
-import org.openflexo.ta.xx.fml.editionaction.AbstractSelectXXLine;
-import org.openflexo.ta.xx.fml.editionaction.AddXXLine;
-import org.openflexo.ta.xx.gui.XXIconLibrary;
-import org.openflexo.ta.xx.model.XXLine;
-import org.openflexo.ta.xx.model.XXObject;
-import org.openflexo.ta.xx.model.XXText;
-import org.openflexo.ta.xx.view.XXTextView;
+import org.openflexo.ta.java.gui.JavaIconLibrary;
+import org.openflexo.ta.java.view.JavaTextView;
+import org.openflexo.ta.java.JavaTechnologyAdapter;
+import org.openflexo.ta.java.fml.JavaLineRole;
+import org.openflexo.ta.java.fml.editionaction.AbstractSelectJavaLine;
+import org.openflexo.ta.java.fml.editionaction.AddJavaLine;
+import org.openflexo.ta.java.model.JavaLine;
+import org.openflexo.ta.java.model.JavaObject;
+import org.openflexo.ta.java.model.JavaText;
 import org.openflexo.view.EmptyPanel;
 import org.openflexo.view.ModuleView;
 import org.openflexo.view.controller.ControllerActionInitializer;
@@ -64,15 +64,15 @@ import org.openflexo.view.controller.FlexoController;
 import org.openflexo.view.controller.TechnologyAdapterController;
 import org.openflexo.view.controller.model.FlexoPerspective;
 
-public class XXAdapterController extends TechnologyAdapterController<XXTechnologyAdapter> {
+public class JavaAdapterController extends TechnologyAdapterController<JavaTechnologyAdapter> {
 
-	static final Logger logger = Logger.getLogger(XXAdapterController.class.getPackage().getName());
+	static final Logger logger = Logger.getLogger(JavaAdapterController.class.getPackage().getName());
 
-	private InspectorGroup xxInspectorGroup;
+	private InspectorGroup javaInspectorGroup;
 
 	@Override
-	public Class<XXTechnologyAdapter> getTechnologyAdapterClass() {
-		return XXTechnologyAdapter.class;
+	public Class<JavaTechnologyAdapter> getTechnologyAdapterClass() {
+		return JavaTechnologyAdapter.class;
 	}
 
 	/**
@@ -83,7 +83,7 @@ public class XXAdapterController extends TechnologyAdapterController<XXTechnolog
 	@Override
 	protected void initializeInspectors(FlexoController controller) {
 
-		xxInspectorGroup = controller.loadInspectorGroup("XX", getTechnologyAdapter().getLocales(),
+		javaInspectorGroup = controller.loadInspectorGroup("Java", getTechnologyAdapter().getLocales(),
 				getFMLTechnologyAdapterInspectorGroup());
 	}
 
@@ -94,7 +94,7 @@ public class XXAdapterController extends TechnologyAdapterController<XXTechnolog
 	 */
 	@Override
 	public InspectorGroup getTechnologyAdapterInspectorGroup() {
-		return xxInspectorGroup;
+		return javaInspectorGroup;
 	}
 
 	@Override
@@ -110,7 +110,7 @@ public class XXAdapterController extends TechnologyAdapterController<XXTechnolog
 	 */
 	@Override
 	public ImageIcon getTechnologyBigIcon() {
-		return XXIconLibrary.XX_TA_BIG_ICON;
+		return JavaIconLibrary.JAVA_TA_BIG_ICON;
 	}
 
 	/**
@@ -120,7 +120,7 @@ public class XXAdapterController extends TechnologyAdapterController<XXTechnolog
 	 */
 	@Override
 	public ImageIcon getTechnologyIcon() {
-		return XXIconLibrary.XX_TA_ICON;
+		return JavaIconLibrary.JAVA_TA_ICON;
 	}
 
 	/**
@@ -130,7 +130,7 @@ public class XXAdapterController extends TechnologyAdapterController<XXTechnolog
 	 */
 	@Override
 	public ImageIcon getModelIcon() {
-		return XXIconLibrary.XX_TEXT_ICON;
+		return JavaIconLibrary.JAVA_TEXT_ICON;
 	}
 
 	/**
@@ -140,7 +140,7 @@ public class XXAdapterController extends TechnologyAdapterController<XXTechnolog
 	 */
 	@Override
 	public ImageIcon getMetaModelIcon() {
-		return XXIconLibrary.XX_TEXT_ICON;
+		return JavaIconLibrary.JAVA_TEXT_ICON;
 	}
 
 	/**
@@ -151,8 +151,8 @@ public class XXAdapterController extends TechnologyAdapterController<XXTechnolog
 	 */
 	@Override
 	public ImageIcon getIconForTechnologyObject(Class<? extends TechnologyObject<?>> objectClass) {
-		if (XXObject.class.isAssignableFrom(objectClass)) {
-			return XXIconLibrary.iconForObject((Class<? extends XXObject>) objectClass);
+		if (JavaObject.class.isAssignableFrom(objectClass)) {
+			return JavaIconLibrary.iconForObject((Class<? extends JavaObject>) objectClass);
 		}
 		return null;
 	}
@@ -165,8 +165,8 @@ public class XXAdapterController extends TechnologyAdapterController<XXTechnolog
 	 */
 	@Override
 	public ImageIcon getIconForFlexoRole(Class<? extends FlexoRole<?>> patternRoleClass) {
-		if (XXLineRole.class.isAssignableFrom(patternRoleClass)) {
-			return getIconForTechnologyObject(XXLine.class);
+		if (JavaLineRole.class.isAssignableFrom(patternRoleClass)) {
+			return getIconForTechnologyObject(JavaLine.class);
 		}
 		return null;
 	}
@@ -179,33 +179,33 @@ public class XXAdapterController extends TechnologyAdapterController<XXTechnolog
 	 */
 	@Override
 	public ImageIcon getIconForEditionAction(Class<? extends EditionAction> editionActionClass) {
-		if (AddXXLine.class.isAssignableFrom(editionActionClass)) {
-			return IconFactory.getImageIcon(getIconForTechnologyObject(XXLine.class), IconLibrary.DUPLICATE);
+		if (AddJavaLine.class.isAssignableFrom(editionActionClass)) {
+			return IconFactory.getImageIcon(getIconForTechnologyObject(JavaLine.class), IconLibrary.DUPLICATE);
 		}
-		else if (AbstractSelectXXLine.class.isAssignableFrom(editionActionClass)) {
-			return IconFactory.getImageIcon(getIconForTechnologyObject(XXLine.class), IconLibrary.IMPORT);
+		else if (AbstractSelectJavaLine.class.isAssignableFrom(editionActionClass)) {
+			return IconFactory.getImageIcon(getIconForTechnologyObject(JavaLine.class), IconLibrary.IMPORT);
 		}
 		return super.getIconForEditionAction(editionActionClass);
 	}
 
 	@Override
-	public boolean hasModuleViewForObject(TechnologyObject<XXTechnologyAdapter> object, FlexoController controller) {
-		return object instanceof XXText;
+	public boolean hasModuleViewForObject(TechnologyObject<JavaTechnologyAdapter> object, FlexoController controller) {
+		return object instanceof JavaText;
 	}
 
 	@Override
-	public String getWindowTitleforObject(TechnologyObject<XXTechnologyAdapter> object, FlexoController controller) {
-		if (object instanceof XXText) {
-			return ((XXText) object).getResource().getName();
+	public String getWindowTitleforObject(TechnologyObject<JavaTechnologyAdapter> object, FlexoController controller) {
+		if (object instanceof JavaText) {
+			return ((JavaText) object).getResource().getName();
 		}
 		return object.toString();
 	}
 
 	@Override
-	public ModuleView<?> createModuleViewForObject(TechnologyObject<XXTechnologyAdapter> object, FlexoController controller,
+	public ModuleView<?> createModuleViewForObject(TechnologyObject<JavaTechnologyAdapter> object, FlexoController controller,
 			FlexoPerspective perspective) {
-		if (object instanceof XXText) {
-			XXTextView returned = new XXTextView((XXText) object, controller, perspective);
+		if (object instanceof JavaText) {
+			JavaTextView returned = new JavaTextView((JavaText) object, controller, perspective);
 			return returned;
 		}
 		return new EmptyPanel<>(controller, perspective, object);

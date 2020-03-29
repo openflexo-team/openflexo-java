@@ -5,7 +5,7 @@
 	borderRight="0" border="empty" trackViewPortWidth="true" font="SansSerif,0,12"
 	align="left" borderBottom="0" titleFont="SansSerif,0,12" borderTop="0"
 	trackViewPortHeight="true" layout="border" name="Inspector">
-	<Parameter id="1" name="title" value="XXText" />
+	<Parameter id="1" name="title" value="JavaText" />
 	<TabPanel id="2" name="Tab" constraints="border(location=center)">
 		<Tab id="3" verticalScrollbarPolicy="VERTICAL_SCROLLBAR_AS_NEEDED"
 			borderLeft="0" sizeAdjustment="OriginalSize" border="empty"
@@ -16,7 +16,7 @@
 		</Tab>
 	</TabPanel>
 	<FIBVariable id="13" name="data"
-		type="org.openflexo.ta.xx.model.XXText" />
+		type="org.openflexo.ta.java.model.JavaText" />
 	<LocalizedDictionary id="14">
 		<Localized id="15" value="Avancé" lang="French" key="Advanced" />
 		<Localized id="16" value="Basique" lang="French" key="Basic" />

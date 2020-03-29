@@ -1,6 +1,6 @@
 /**
  * 
- * Copyright (c) 2014, Openflexo
+ * Copyright (c) 2014-2015, Openflexo
  * 
  * This file is part of Openflexo-technology-adapters-ui, a component of the software infrastructure 
  * developed at Openflexo.
@@ -36,17 +36,15 @@
  * 
  */
 
-package org.openflexo.technologyadapter.xx.gui;
+package org.openflexo.technologyadapter.java.gui;
 
 import org.junit.Test;
-import org.junit.experimental.categories.Category;
-import org.openflexo.gina.test.GenericFIBTestCase;
+import org.openflexo.gina.test.GenericFIBInspectorTestCase;
 import org.openflexo.rm.FileResourceImpl;
 import org.openflexo.rm.ResourceLocator;
-import org.openflexo.test.UITest;
 
 /**
- * Used to test all FIBs defined in this technology adapter<br>
+ * Used to test all inspectors defined in this technology adapter<br>
  * 
  * To use that class, first execute main method to generate all tests in the console, then copy-paste all the tests in this source file
  * 
@@ -54,20 +52,36 @@ import org.openflexo.test.UITest;
  * @author sylvain
  *
  */
-public class TestXXFibs extends GenericFIBTestCase {
+public class TestJavaInspectors extends GenericFIBInspectorTestCase {
 
 	/*
 	 * Use this method to print all
 	 * Then copy-paste 
 	 */
+
 	public static void main(String[] args) {
-		System.out.println(generateFIBTestCaseClass(((FileResourceImpl) ResourceLocator.locateResource("Fib")).getFile(), "Fib/"));
+		System.out.println(generateInspectorTestCaseClass(((FileResourceImpl) ResourceLocator.locateResource("Inspectors/Java")).getFile(),
+				"Inspectors/Java/"));
 	}
 
 	@Test
-	@Category(UITest.class)
-	public void removeThis() {
-		// Actually no test to execute
+	public void testAbstractSelectJavaLineInspector() {
+		validateFIB("Inspectors/XX/EditionAction/AbstractSelectXXLine.inspector");
+	}
+
+	@Test
+	public void testAddJavaLineInspector() {
+		validateFIB("Inspectors/XX/EditionAction/AddXXLine.inspector");
+	}
+
+	@Test
+	public void testJavaLineInspector() {
+		validateFIB("Inspectors/XX/XXLine.inspector");
+	}
+
+	@Test
+	public void testJavaTextInspector() {
+		validateFIB("Inspectors/XX/XXText.inspector");
 	}
 
 }

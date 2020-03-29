@@ -1,8 +1,8 @@
 /**
  * 
- * Copyright (c) 2018, Openflexo
+ * Copyright (c) 2014, Openflexo
  * 
- * This file is part of OpenflexoTechnologyAdapter, a component of the software infrastructure 
+ * This file is part of Openflexo-technology-adapters-ui, a component of the software infrastructure 
  * developed at Openflexo.
  * 
  * 
@@ -36,36 +36,30 @@
  * 
  */
 
-package org.openflexo.ta.xx.gui;
+package org.openflexo.technologyadapter.java.gui;
 
-import java.util.logging.Logger;
-
-import javax.swing.ImageIcon;
-
-import org.openflexo.icon.ImageIconResource;
+import org.openflexo.gina.test.GenericFIBTestCase;
+import org.openflexo.rm.FileResourceImpl;
 import org.openflexo.rm.ResourceLocator;
-import org.openflexo.ta.xx.model.XXLine;
-import org.openflexo.ta.xx.model.XXObject;
-import org.openflexo.ta.xx.model.XXText;
 
-public class XXIconLibrary {
+/**
+ * Used to test all dialog FIBs defined in this technology adapter<br>
+ * 
+ * To use that class, first execute main method to generate all tests in the console, then copy-paste all the tests in this source file
+ * 
+ * 
+ * @author sylvain
+ *
+ */
+public class TestJavaDialogFibs extends GenericFIBTestCase {
 
-	private static final Logger logger = Logger.getLogger(XXIconLibrary.class.getPackage().getName());
-
-	public static final ImageIconResource XX_TA_BIG_ICON = new ImageIconResource(ResourceLocator.locateResource("Icons/xx-ta-32x32.png"));
-
-	public static final ImageIconResource XX_TA_ICON = new ImageIconResource(ResourceLocator.locateResource("Icons/xx-ta-16x16.png"));
-	public static final ImageIconResource XX_TEXT_ICON = new ImageIconResource(ResourceLocator.locateResource("Icons/XXText.png"));
-	public static final ImageIconResource XX_LINE_ICON = new ImageIconResource(ResourceLocator.locateResource("Icons/XXLine.png"));
-
-	public static ImageIcon iconForObject(Class<? extends XXObject> objectClass) {
-		if (XXText.class.isAssignableFrom(objectClass)) {
-			return XX_TEXT_ICON;
-		}
-		else if (XXLine.class.isAssignableFrom(objectClass)) {
-			return XX_LINE_ICON;
-		}
-		logger.warning("No icon for " + objectClass);
-		return null;
+	/*
+	 * Use this method to print all
+	 * Then copy-paste 
+	 */
+	public static void main(String[] args) {
+		System.out.println(
+				generateFIBTestCaseClass(((FileResourceImpl) ResourceLocator.locateResource("Fib/Dialog")).getFile(), "Fib/Dialog/"));
 	}
+
 }

@@ -22,10 +22,10 @@
 		</Tab>
 	</TabPanel>
 	<FIBVariable name="data"
-		type="org.openflexo.ta.xx.fml.editionaction.AddXXLine" />
+		type="org.openflexo.ta.java.fml.editionaction.AddJavaLine" />
 	<LocalizedDictionary>
 		<Localized key="Advanced" lang="French" value="Avancé" />
 		<Localized key="Basic" lang="French" value="Basique" />
 	</LocalizedDictionary>
-	<Parameter name="title" value="AddXXLine action" />
+	<Parameter name="title" value="AddJavaLine action" />
 </Panel>

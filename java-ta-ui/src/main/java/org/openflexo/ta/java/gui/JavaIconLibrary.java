@@ -1,8 +1,8 @@
 /**
  * 
- * Copyright (c) 2014, Openflexo
+ * Copyright (c) 2018, Openflexo
  * 
- * This file is part of Openflexo-technology-adapters-ui, a component of the software infrastructure 
+ * This file is part of OpenflexoTechnologyAdapter, a component of the software infrastructure 
  * developed at Openflexo.
  * 
  * 
@@ -36,30 +36,36 @@
  * 
  */
 
-package org.openflexo.technologyadapter.xx.gui;
+package org.openflexo.ta.java.gui;
 
-import org.openflexo.gina.test.GenericFIBTestCase;
-import org.openflexo.rm.FileResourceImpl;
+import java.util.logging.Logger;
+
+import javax.swing.ImageIcon;
+
+import org.openflexo.icon.ImageIconResource;
 import org.openflexo.rm.ResourceLocator;
+import org.openflexo.ta.java.model.JavaLine;
+import org.openflexo.ta.java.model.JavaObject;
+import org.openflexo.ta.java.model.JavaText;
 
-/**
- * Used to test all dialog FIBs defined in this technology adapter<br>
- * 
- * To use that class, first execute main method to generate all tests in the console, then copy-paste all the tests in this source file
- * 
- * 
- * @author sylvain
- *
- */
-public class TestXXDialogFibs extends GenericFIBTestCase {
+public class JavaIconLibrary {
 
-	/*
-	 * Use this method to print all
-	 * Then copy-paste 
-	 */
-	public static void main(String[] args) {
-		System.out.println(
-				generateFIBTestCaseClass(((FileResourceImpl) ResourceLocator.locateResource("Fib/Dialog")).getFile(), "Fib/Dialog/"));
+	private static final Logger logger = Logger.getLogger(JavaIconLibrary.class.getPackage().getName());
+
+	public static final ImageIconResource JAVA_TA_BIG_ICON = new ImageIconResource(ResourceLocator.locateResource("Icons/xx-ta-32x32.png"));
+
+	public static final ImageIconResource JAVA_TA_ICON = new ImageIconResource(ResourceLocator.locateResource("Icons/xx-ta-16x16.png"));
+	public static final ImageIconResource JAVA_TEXT_ICON = new ImageIconResource(ResourceLocator.locateResource("Icons/XXText.png"));
+	public static final ImageIconResource JAVA_LINE_ICON = new ImageIconResource(ResourceLocator.locateResource("Icons/XXLine.png"));
+
+	public static ImageIcon iconForObject(Class<? extends JavaObject> objectClass) {
+		if (JavaText.class.isAssignableFrom(objectClass)) {
+			return JAVA_TEXT_ICON;
+		}
+		else if (JavaLine.class.isAssignableFrom(objectClass)) {
+			return JAVA_LINE_ICON;
+		}
+		logger.warning("No icon for " + objectClass);
+		return null;
 	}
-
 }
