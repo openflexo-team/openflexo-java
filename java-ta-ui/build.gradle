@@ -1,0 +1,12 @@
+dependencies {
+  // openflexo dep
+  implementation project(":java-ta")
+
+  implementation flexoUi()
+
+  runtimeOnly fmlTechnologyAdapterUi()
+  // external dep
+  // testing dep
+  testImplementation flexoUiTest()
+}
+
