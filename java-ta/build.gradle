@@ -1,6 +1,7 @@
 dependencies {
   // openflexo dep
   implementation flexoFoundation()
-  implementation group: 'fr.inria.gforge.spoon', name: 'spoon-core', version: '11.0.1-beta-2'
- 
+  //implementation group: 'fr.inria.gforge.spoon', name: 'spoon-core', version: '11.0.1-beta-2'
+  implementation group: 'fr.inria.gforge.spoon', name: 'spoon-core', version: '9.1.0'
+
 }
