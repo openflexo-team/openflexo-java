@@ -1,0 +1,51 @@
+/*
+// Define a new source set for the Java files you want to include in resources
+sourceSets {
+    customJava {
+        // Set the source directory for your Java files
+        java {
+            srcDirs = ['src/main/resources/TestResourceCenter/JavaCode']
+        }
+    }
+}
+
+// Configure the main source set to depend on the custom source set
+sourceSets.main {
+    java {
+        // Include the custom source set in the compilation
+        srcDirs += sourceSets.customJava.java.srcDirs
+    }
+}
+
+// Define a task to copy Java files from customJava source set to resources directory
+task copyCustomJavaToResources(type: Copy) {
+    from sourceSets.customJava.java
+    into sourceSets.main.output.resourcesDir
+}
+
+// Make the compileJava task depend on the copyCustomJavaToResources task
+compileJava.dependsOn(copyCustomJavaToResources)
+*/
+
+apply plugin: 'eclipse'
+
+eclipse {
+    classpath {
+        file {
+            whenMerged {
+                def src = entries.find { it.path == 'src/main/resources' }
+                src.excludes = ['**']
+                //src.includes = ['**/*.java']
+            }
+        }
+    }
+}
+
+//sourceSets {
+//    main {
+//        resources {
+//            srcDir 'src/main/resources/TestResourceCenter/JavaCode'
+//            exclude '**/*.class' // Exclude compiled class files
+//        }
+//    }
+//}
