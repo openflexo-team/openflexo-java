@@ -34,7 +34,7 @@ eclipse {
         file {
             whenMerged {
                 def src = entries.find { it.path == 'src/main/resources' }
-                src.excludes = ['**']
+                //src.excludes = ['**']
                 //src.includes = ['**/*.java']
             }
         }
