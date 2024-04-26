@@ -39,11 +39,13 @@
 
 package org.openflexo.technologyadapter.java.rm;
 
+import org.openflexo.foundation.resource.PamelaResource;
 import org.openflexo.foundation.technologyadapter.TechnologyAdapterResource;
 import org.openflexo.pamela.annotations.ImplementationClass;
 import org.openflexo.pamela.annotations.ModelEntity;
 import org.openflexo.technologyadapter.java.JavaTechnologyAdapter;
 import org.openflexo.technologyadapter.java.model.JavaCompilationUnit;
+import org.openflexo.technologyadapter.java.model.JavaModelFactory;
 
 /**
  * Represents the resource associated to a Java source folder
@@ -52,7 +54,9 @@ import org.openflexo.technologyadapter.java.model.JavaCompilationUnit;
  * 
  */
 @ModelEntity
-@ImplementationClass(JavaSourceFolderResourceImpl.class)
-public interface JavaCompilationUnitResource extends TechnologyAdapterResource<JavaCompilationUnit, JavaTechnologyAdapter> {
+@ImplementationClass(JavaCompilationUnitResourceImpl.class)
+public interface JavaCompilationUnitResource extends TechnologyAdapterResource<JavaCompilationUnit, JavaTechnologyAdapter>,
+		PamelaResource<JavaCompilationUnit, JavaModelFactory> {
 
+	public String getFullQualifiedClassName();
 }

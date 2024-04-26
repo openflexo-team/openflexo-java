@@ -40,6 +40,8 @@
 package org.openflexo.technologyadapter.java;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
@@ -50,8 +52,10 @@ import java.util.logging.Logger;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.openflexo.foundation.FlexoException;
 import org.openflexo.foundation.resource.FlexoResource;
 import org.openflexo.foundation.resource.FlexoResourceCenter;
+import org.openflexo.foundation.resource.ResourceLoadingCancelledException;
 import org.openflexo.foundation.test.OpenflexoProjectAtRunTimeTestCase;
 import org.openflexo.rm.FileResourceImpl;
 import org.openflexo.rm.Resource;
@@ -94,24 +98,30 @@ public class TestJava1 extends OpenflexoProjectAtRunTimeTestCase {
 		}
 	}
 
-	protected boolean containsResourceWithSerializationArtefactWithName(Collection<? extends FlexoResource<?>> resources,
-			String resourceName) {
-		for (FlexoResource<?> resource : resources) {
+	protected <R extends FlexoResource<?>> R getResourceWithSerializationArtefactWithName(Collection<R> resources, String resourceName) {
+		for (R resource : resources) {
 			if (resource.getIODelegate().getSerializationArtefactName().contains(resourceName)) {
-				return true;
+				return resource;
 			}
 		}
-		return false;
+		return null;
+	}
+
+	protected boolean containsResourceWithSerializationArtefactWithName(Collection<? extends FlexoResource<?>> resources,
+			String resourceName) {
+		return (getResourceWithSerializationArtefactWithName(resources, resourceName) != null);
 	}
 
 	/**
 	 * Instanciate test ResourceCenter
 	 * 
 	 * @throws IOException
+	 * @throws FlexoException
+	 * @throws ResourceLoadingCancelledException
 	 */
 	@Test
 	@TestOrder(1)
-	public void testLoadTestResourceCenter() throws IOException {
+	public void testLoadTestResourceCenter() throws IOException, ResourceLoadingCancelledException, FlexoException {
 		log("testLoadTestResourceCenter()");
 
 		/*Resource targetResource = ResourceLocator.locateResource("TestResourceCenter/JavaCode");
@@ -151,8 +161,17 @@ public class TestJava1 extends OpenflexoProjectAtRunTimeTestCase {
 					"> " + javaSourceFolderResource + " in " + javaSourceFolderResource.getIODelegate().getSerializationArtefact());
 		}
 
-		assertTrue(containsResourceWithSerializationArtefactWithName(javaSourceFolderRepository.getAllResources(), "TestResourceCenter"));
-		assertTrue(containsResourceWithSerializationArtefactWithName(javaSourceFolderRepository.getAllResources(), "JavaCode"));
+		FlexoResource<?> rootSourceFolderResource = getResourceWithSerializationArtefactWithName(
+				javaSourceFolderRepository.getAllResources(), "TestResourceCenter");
+		FlexoResource<?> javaCodeSourceFolderResource = getResourceWithSerializationArtefactWithName(
+				javaSourceFolderRepository.getAllResources(), "JavaCode");
+
+		assertNotNull(rootSourceFolderResource);
+		assertNotNull(javaCodeSourceFolderResource);
+
+		assertNull(rootSourceFolderResource.getContainer());
+		assertTrue(rootSourceFolderResource.getContents().contains(javaCodeSourceFolderResource));
+		assertSame(javaCodeSourceFolderResource.getContainer(), rootSourceFolderResource);
 
 		javaCompilationUnitRepository = javaTechnologyAdapter.getJavaCompilationUnitRepository(resourceCenter);
 		System.out.println("javaCompilationUnitRepository=" + javaCompilationUnitRepository);
@@ -161,10 +180,16 @@ public class TestJava1 extends OpenflexoProjectAtRunTimeTestCase {
 			System.out.println(
 					"> " + javaCompilationUnitResource + " in " + javaCompilationUnitResource.getIODelegate().getSerializationArtefact());
 		}
-		assertTrue(containsResourceWithSerializationArtefactWithName(javaCompilationUnitRepository.getAllResources(), "HelloWorld.java"));
 
-		// assertNotNull(modelRepository);
-		// assertTrue(modelRepository.getAllResources().size() > 3);
+		JavaCompilationUnitResource helloWorldClassResource = getResourceWithSerializationArtefactWithName(
+				javaCompilationUnitRepository.getAllResources(), "HelloWorld.java");
+		assertNotNull(helloWorldClassResource);
+		logger.info("helloWorldClassResource=" + helloWorldClassResource);
+
+		assertTrue(javaCodeSourceFolderResource.getContents().contains(helloWorldClassResource));
+		assertSame(helloWorldClassResource.getContainer(), javaCodeSourceFolderResource);
+
+		assertNotNull(helloWorldClassResource.loadResourceData());
 	}
 
 }

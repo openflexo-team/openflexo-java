@@ -66,4 +66,6 @@ public interface JavaSourceFolderResource extends TechnologyAdapterResource<Java
 	@Setter(CONTEXT_MANAGER)
 	public void setContextManager(JavaTechnologyContextManager contextManager);
 
+	public String getFullQualifiedPackageName();
+
 }

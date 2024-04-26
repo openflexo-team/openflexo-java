@@ -41,17 +41,43 @@ package org.openflexo.technologyadapter.java.model;
 import java.util.logging.Logger;
 
 import org.openflexo.foundation.InnerResourceData;
+import org.openflexo.pamela.annotations.Getter;
 import org.openflexo.pamela.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.PropertyIdentifier;
+import org.openflexo.pamela.annotations.Setter;
 import org.openflexo.technologyadapter.java.JavaTechnologyAdapter;
+
+import spoon.reflect.declaration.CtElement;
 
 /**
  * An element contained in a {@link JavaCompilationUnit}
+ * 
+ * Wraps a {@link CtElement}
  * 
  * @author sylvain
  *
  */
 @ModelEntity(isAbstract = true)
-public interface JavaSourceElement extends JavaSourceObject, InnerResourceData<JavaCompilationUnit> {
+public interface JavaSourceElement<E extends CtElement> extends JavaSourceObject, InnerResourceData<JavaCompilationUnit> {
+
+	@PropertyIdentifier(type = CtElement.class)
+	public static final String ELEMENT_KEY = "element";
+
+	/**
+	 * Return {@link CtElement} wrapped by this {@link JavaSourceElement}
+	 * 
+	 * @return
+	 */
+	@Getter(value = ELEMENT_KEY, ignoreType = true)
+	public E getElement();
+
+	/**
+	 * Sets {@link CtElement} wrapped by this {@link JavaSourceElement}
+	 * 
+	 * @param workbook
+	 */
+	@Setter(ELEMENT_KEY)
+	public void setElement(E element);
 
 	/**
 	 * Default base implementation for {@link JavaSourceElement}
@@ -59,7 +85,7 @@ public interface JavaSourceElement extends JavaSourceObject, InnerResourceData<J
 	 * @author sylvain
 	 *
 	 */
-	public static abstract class JavaSourceElementImpl extends FlexoObjectImpl implements JavaSourceElement {
+	public static abstract class JavaSourceElementImpl<E extends CtElement> extends FlexoObjectImpl implements JavaSourceElement<E> {
 
 		@SuppressWarnings("unused")
 		private static final Logger logger = Logger.getLogger(JavaSourceElementImpl.class.getPackage().getName());

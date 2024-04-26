@@ -77,6 +77,14 @@ public abstract class JavaSourceFolderResourceImpl extends FlexoResourceImpl<Jav
 		return null;
 	}
 
+	@Override
+	public String getFullQualifiedPackageName() {
+		if (getContainer() instanceof JavaSourceFolderResource) {
+			return ((JavaSourceFolderResource) getContainer()).getFullQualifiedPackageName() + "." + getName();
+		}
+		return getName();
+	}
+
 	/**
 	 * Save the &quot;real&quot; resource data of this resource.
 	 * 

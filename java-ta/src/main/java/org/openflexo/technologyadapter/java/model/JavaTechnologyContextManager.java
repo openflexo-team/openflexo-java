@@ -39,11 +39,24 @@
 
 package org.openflexo.technologyadapter.java.model;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import org.openflexo.foundation.resource.FlexoResourceCenterService;
+import org.openflexo.foundation.technologyadapter.TechnologyAdapterResource;
 import org.openflexo.foundation.technologyadapter.TechnologyContextManager;
 import org.openflexo.technologyadapter.java.JavaTechnologyAdapter;
+import org.openflexo.technologyadapter.java.rm.JavaSourceFolderResource;
+import org.openflexo.toolbox.FileUtils;
+
+import spoon.IncrementalLauncher;
+import spoon.SpoonAPI;
+import spoon.reflect.CtModel;
 
 /**
  * TODO
@@ -55,8 +68,61 @@ public class JavaTechnologyContextManager extends TechnologyContextManager<JavaT
 
 	private static final Logger logger = Logger.getLogger(JavaTechnologyContextManager.class.getPackage().getName());
 
+	private Set<File> directories = new HashSet<>();
+
+	private SpoonAPI spoon;
+	private boolean analysisUptodate = false;
+
 	public JavaTechnologyContextManager(JavaTechnologyAdapter adapter, FlexoResourceCenterService resourceCenterService) {
 		super(adapter, resourceCenterService);
 	}
 
+	@Override
+	public void registerResource(TechnologyAdapterResource<?, JavaTechnologyAdapter> resource) {
+		super.registerResource(resource);
+		// System.out.println("-----> registerResource " + resource);
+		if (resource instanceof JavaSourceFolderResource) {
+			if (resource.getIODelegate().getSerializationArtefact() instanceof File) {
+				appendSourceDirectory((File) resource.getIODelegate().getSerializationArtefact());
+				/*System.out.println("On rajoute: " + ((File) resource.getIODelegate().getSerializationArtefact()).getAbsolutePath());
+				spoon.addInputResource(((File) resource.getIODelegate().getSerializationArtefact()).getAbsolutePath());
+				spoon.buildModel();
+				spoon.*/
+			}
+		}
+	}
+
+	private void appendSourceDirectory(File aDirectory) {
+		List<File> uselessDirectories = new ArrayList<>();
+		for (File dir : directories) {
+			if (FileUtils.isFileContainedIn(aDirectory, dir)) {
+				// No need to add it
+				return;
+			}
+			if (FileUtils.isFileContainedIn(dir, aDirectory)) {
+				uselessDirectories.add(dir);
+			}
+		}
+		if (uselessDirectories.size() > 0) {
+			directories.removeAll(uselessDirectories);
+		}
+		directories.add(aDirectory);
+		analysisUptodate = false;
+	}
+
+	public CtModel getModelAnalysis() {
+		if (analysisUptodate) {
+			return spoon.getModel();
+		}
+		logger.info("Building Spoon IncrementalLauncher...");
+		for (File file : directories) {
+			logger.info("...use " + file.getAbsolutePath());
+		}
+		final File cache = new File("<path_to_cache>");
+		spoon = new IncrementalLauncher(directories, Collections.emptySet(), cache);
+		CtModel model = spoon.buildModel();
+		analysisUptodate = true;
+
+		return model;
+	}
 }

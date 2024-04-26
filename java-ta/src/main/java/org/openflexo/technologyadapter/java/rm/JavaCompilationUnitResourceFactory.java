@@ -24,10 +24,12 @@ import java.io.IOException;
 import java.util.logging.Logger;
 
 import org.openflexo.foundation.resource.FlexoResourceCenter;
-import org.openflexo.foundation.resource.TechnologySpecificFlexoResourceFactory;
+import org.openflexo.foundation.resource.TechnologySpecificPamelaResourceFactory;
+import org.openflexo.foundation.technologyadapter.TechnologyContextManager;
 import org.openflexo.pamela.exceptions.ModelDefinitionException;
 import org.openflexo.technologyadapter.java.JavaTechnologyAdapter;
 import org.openflexo.technologyadapter.java.model.JavaCompilationUnit;
+import org.openflexo.technologyadapter.java.model.JavaModelFactory;
 
 /**
  * Implementation of ResourceFactory for {@link JavaSourceFolderResource}
@@ -35,8 +37,8 @@ import org.openflexo.technologyadapter.java.model.JavaCompilationUnit;
  * @author sylvain
  *
  */
-public class JavaCompilationUnitResourceFactory
-		extends TechnologySpecificFlexoResourceFactory<JavaCompilationUnitResource, JavaCompilationUnit, JavaTechnologyAdapter> {
+public class JavaCompilationUnitResourceFactory extends
+		TechnologySpecificPamelaResourceFactory<JavaCompilationUnitResource, JavaCompilationUnit, JavaTechnologyAdapter, JavaModelFactory> {
 
 	private static final Logger logger = Logger.getLogger(JavaCompilationUnitResourceFactory.class.getPackage().getName());
 
@@ -75,6 +77,12 @@ public class JavaCompilationUnitResourceFactory
 		logger.warning("TODO: set URI for " + serializationArtefact);
 		// returned.setURI(OWLOntology.findOntologyURI(returned.getIODelegate().getSerializationArtefactAsResource()));
 		return returned;
+	}
+
+	@Override
+	public JavaModelFactory makeModelFactory(JavaCompilationUnitResource resource,
+			TechnologyContextManager<JavaTechnologyAdapter> technologyContextManager) throws ModelDefinitionException {
+		return new JavaModelFactory(resource, technologyContextManager.getServiceManager().getEditingContext());
 	}
 
 }

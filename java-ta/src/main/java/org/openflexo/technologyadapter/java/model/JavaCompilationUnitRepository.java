@@ -39,14 +39,18 @@
 package org.openflexo.technologyadapter.java.model;
 
 import org.openflexo.foundation.resource.FlexoResourceCenter;
+import org.openflexo.foundation.resource.RepositoryFolder;
 import org.openflexo.foundation.technologyadapter.TechnologyAdapterResourceRepository;
+import org.openflexo.pamela.annotations.ImplementationClass;
 import org.openflexo.pamela.annotations.ModelEntity;
 import org.openflexo.pamela.exceptions.ModelDefinitionException;
 import org.openflexo.pamela.factory.PamelaModelFactory;
 import org.openflexo.technologyadapter.java.JavaTechnologyAdapter;
 import org.openflexo.technologyadapter.java.rm.JavaCompilationUnitResource;
+import org.openflexo.technologyadapter.java.rm.JavaSourceFolderResource;
 
 @ModelEntity
+@ImplementationClass(JavaCompilationUnitRepository.JavaCompilationUnitRepositoryImpl.class)
 public interface JavaCompilationUnitRepository<I>
 		extends TechnologyAdapterResourceRepository<JavaCompilationUnitResource, JavaTechnologyAdapter, JavaCompilationUnit, I> {
 
@@ -67,4 +71,23 @@ public interface JavaCompilationUnitRepository<I>
 		return null;
 	}
 
+	public static abstract class JavaCompilationUnitRepositoryImpl<I>
+			extends TechnologyAdapterResourceRepositoryImpl<JavaCompilationUnitResource, JavaTechnologyAdapter, JavaCompilationUnit, I>
+			implements JavaCompilationUnitRepository<I> {
+
+		@Override
+		public void registerResource(JavaCompilationUnitResource resource, RepositoryFolder<JavaCompilationUnitResource, I> parentFolder) {
+			super.registerResource(resource, parentFolder);
+			System.out.println("Hop, on met " + resource + " dans " + parentFolder);
+
+			JavaSourceFolderResource sourceFolderResource = getTechnologyAdapter().getJavaSourceFolderRepository(getResourceCenter())
+					.getResourceForFolder(parentFolder.getSerializationArtefact());
+			System.out.println("Le parent c'est " + sourceFolderResource);
+			if (sourceFolderResource != null) {
+				sourceFolderResource.addToContents(resource);
+			}
+
+		}
+
+	}
 }

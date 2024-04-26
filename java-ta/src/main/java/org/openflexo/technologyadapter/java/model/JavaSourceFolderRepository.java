@@ -38,8 +38,13 @@
 
 package org.openflexo.technologyadapter.java.model;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.openflexo.foundation.resource.FlexoResourceCenter;
+import org.openflexo.foundation.resource.RepositoryFolder;
 import org.openflexo.foundation.technologyadapter.TechnologyAdapterResourceRepository;
+import org.openflexo.pamela.annotations.ImplementationClass;
 import org.openflexo.pamela.annotations.ModelEntity;
 import org.openflexo.pamela.exceptions.ModelDefinitionException;
 import org.openflexo.pamela.factory.PamelaModelFactory;
@@ -47,8 +52,11 @@ import org.openflexo.technologyadapter.java.JavaTechnologyAdapter;
 import org.openflexo.technologyadapter.java.rm.JavaSourceFolderResource;
 
 @ModelEntity
+@ImplementationClass(JavaSourceFolderRepository.JavaSourceFolderRepositoryImpl.class)
 public interface JavaSourceFolderRepository<I>
 		extends TechnologyAdapterResourceRepository<JavaSourceFolderResource, JavaTechnologyAdapter, JavaSourceFolder, I> {
+
+	public JavaSourceFolderResource getResourceForFolder(I folder);
 
 	public static <I> JavaSourceFolderRepository<I> instanciateNewRepository(JavaTechnologyAdapter technologyAdapter,
 			FlexoResourceCenter<I> resourceCenter) {
@@ -65,6 +73,30 @@ public interface JavaSourceFolderRepository<I>
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	public static abstract class JavaSourceFolderRepositoryImpl<I>
+			extends TechnologyAdapterResourceRepositoryImpl<JavaSourceFolderResource, JavaTechnologyAdapter, JavaSourceFolder, I>
+			implements JavaSourceFolderRepository<I> {
+
+		private Map<I, JavaSourceFolderResource> resourcesStoredByFolder = new HashMap<>();
+
+		@Override
+		public void registerResource(JavaSourceFolderResource resource, RepositoryFolder<JavaSourceFolderResource, I> parentFolder) {
+			super.registerResource(resource, parentFolder);
+			System.out.println("Coucou " + resource + " dans " + parentFolder.getSerializationArtefact());
+			resourcesStoredByFolder.put((I) resource.getIODelegate().getSerializationArtefact(), resource);
+			JavaSourceFolderResource parent = getResourceForFolder(parentFolder.getSerializationArtefact());
+			if (parent != null) {
+				parent.addToContents(resource);
+			}
+		}
+
+		@Override
+		public JavaSourceFolderResource getResourceForFolder(I folder) {
+			return resourcesStoredByFolder.get(folder);
+		}
+
 	}
 
 }

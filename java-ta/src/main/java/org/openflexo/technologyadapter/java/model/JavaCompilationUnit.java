@@ -41,10 +41,15 @@ package org.openflexo.technologyadapter.java.model;
 import java.util.logging.Logger;
 
 import org.openflexo.foundation.resource.ResourceData;
+import org.openflexo.pamela.annotations.Getter;
 import org.openflexo.pamela.annotations.ImplementationClass;
 import org.openflexo.pamela.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.PropertyIdentifier;
+import org.openflexo.pamela.annotations.Setter;
 import org.openflexo.pamela.annotations.XMLElement;
 import org.openflexo.technologyadapter.java.rm.JavaCompilationUnitResource;
+
+import spoon.reflect.declaration.CtCompilationUnit;
 
 /**
  * Represents a Java compilation unit
@@ -57,8 +62,27 @@ import org.openflexo.technologyadapter.java.rm.JavaCompilationUnitResource;
 @XMLElement
 public interface JavaCompilationUnit extends JavaSourceObject, ResourceData<JavaCompilationUnit> {
 
+	@PropertyIdentifier(type = CtCompilationUnit.class)
+	public static final String COMPILATION_UNIT_KEY = "compilationUnit";
+
 	@Override
 	public JavaCompilationUnitResource getResource();
+
+	/**
+	 * Return {@link CtCompilationUnit} wrapped by this {@link JavaSourceElement}
+	 * 
+	 * @return
+	 */
+	@Getter(value = COMPILATION_UNIT_KEY, ignoreType = true)
+	public CtCompilationUnit getCompilationUnit();
+
+	/**
+	 * Sets {@link CtCompilationUnit} wrapped by this {@link JavaSourceElement}
+	 * 
+	 * @param workbook
+	 */
+	@Setter(COMPILATION_UNIT_KEY)
+	public void setCompilationUnit(CtCompilationUnit cu);
 
 	/**
 	 * Default base implementation for {@link JavaCompilationUnit}
