@@ -32,7 +32,7 @@ import org.openflexo.technologyadapter.java.model.JavaCompilationUnit;
 import org.openflexo.technologyadapter.java.model.JavaModelFactory;
 
 /**
- * Implementation of ResourceFactory for {@link JavaSourceFolderResource}
+ * Implementation of ResourceFactory for {@link JavaPackageResource}
  * 
  * @author sylvain
  *
@@ -63,7 +63,7 @@ public class JavaCompilationUnitResourceFactory extends
 	@Override
 	public <I> JavaCompilationUnitResource registerResource(JavaCompilationUnitResource resource, FlexoResourceCenter<I> resourceCenter) {
 		super.registerResource(resource, resourceCenter);
-		// Register the resource in the JavaSourceFolderRepository of supplied resource center
+		// Register the resource in the JavaPackageRepository of supplied resource center
 		registerResourceInResourceRepository(resource,
 				getTechnologyAdapter(resourceCenter.getServiceManager()).getJavaCompilationUnitRepository(resourceCenter));
 

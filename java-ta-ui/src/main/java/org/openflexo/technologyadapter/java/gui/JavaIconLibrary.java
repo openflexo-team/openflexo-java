@@ -47,7 +47,7 @@ import org.openflexo.foundation.technologyadapter.TechnologyObject;
 import org.openflexo.icon.ImageIconResource;
 import org.openflexo.rm.ResourceLocator;
 import org.openflexo.technologyadapter.java.model.JavaCompilationUnit;
-import org.openflexo.technologyadapter.java.model.JavaSourceFolder;
+import org.openflexo.technologyadapter.java.model.JavaPackage;
 
 public class JavaIconLibrary {
 
@@ -65,7 +65,7 @@ public class JavaIconLibrary {
 		if (JavaCompilationUnit.class.isAssignableFrom(objectClass)) {
 			return COMPILATION_UNIT_ICON;
 		}
-		if (JavaSourceFolder.class.isAssignableFrom(objectClass)) {
+		if (JavaPackage.class.isAssignableFrom(objectClass)) {
 			return PACKAGE_ICON;
 		}
 

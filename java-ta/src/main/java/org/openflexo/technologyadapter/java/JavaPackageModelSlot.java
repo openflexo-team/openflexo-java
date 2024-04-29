@@ -54,7 +54,7 @@ import org.openflexo.pamela.annotations.ModelEntity;
 import org.openflexo.pamela.annotations.XMLElement;
 import org.openflexo.pamela.exceptions.ModelDefinitionException;
 import org.openflexo.technologyadapter.java.fml.JavaClassRole;
-import org.openflexo.technologyadapter.java.model.JavaSourceFolder;
+import org.openflexo.technologyadapter.java.model.JavaPackage;
 
 /**
  * TODO
@@ -64,9 +64,9 @@ import org.openflexo.technologyadapter.java.model.JavaSourceFolder;
  */
 @DeclareFlexoRoles({ JavaClassRole.class })
 @ModelEntity
-@ImplementationClass(JavaSourceFolderModelSlot.JavaSourceFolderModelSlotImpl.class)
+@ImplementationClass(JavaPackageModelSlot.JavaPackageModelSlotImpl.class)
 @XMLElement
-@FML("JavaSourceFolderModelSlot")
+@FML("JavaPackageModelSlot")
 /*@FML(
 		value = "TypedDiagram",
 		description = "<html>This ModelSlot represents access to a Diagram conform to a DiagramSpecification<br>"
@@ -80,15 +80,14 @@ import org.openflexo.technologyadapter.java.model.JavaSourceFolder;
 						+ "});",
 				description = "Declares a model slot called 'myDiagram' with resulting type 'Diagram', realized through the 'TypedDiagram' model slot, conform to 'myDiagramSpecification' and specified palette element bindings") },
 		references = { @SeeAlso(FreeDiagramModelSlot.class), @SeeAlso(CreateDiagram.class) })*/
-public interface JavaSourceFolderModelSlot extends ModelSlot<JavaSourceFolder> {
+public interface JavaPackageModelSlot extends ModelSlot<JavaPackage> {
 
 	@Override
 	public JavaTechnologyAdapter getModelSlotTechnologyAdapter();
 
-	public static abstract class JavaSourceFolderModelSlotImpl extends ModelSlotImpl<JavaSourceFolder>
-			implements JavaSourceFolderModelSlot {
+	public static abstract class JavaPackageModelSlotImpl extends ModelSlotImpl<JavaPackage> implements JavaPackageModelSlot {
 
-		private static final Logger logger = Logger.getLogger(JavaSourceFolderModelSlot.class.getPackage().getName());
+		private static final Logger logger = Logger.getLogger(JavaPackageModelSlot.class.getPackage().getName());
 
 		private static org.openflexo.pamela.factory.PamelaModelFactory MF;
 
@@ -119,12 +118,12 @@ public interface JavaSourceFolderModelSlot extends ModelSlot<JavaSourceFolder> {
 
 		@Override
 		public Type getType() {
-			return JavaSourceFolder.class;
+			return JavaPackage.class;
 		}
 
 		@Override
 		public String getTypeDescription() {
-			return "Java source folder";
+			return "Java package";
 		};
 
 		@Override
@@ -134,23 +133,23 @@ public interface JavaSourceFolderModelSlot extends ModelSlot<JavaSourceFolder> {
 
 		@Override
 		public String getModelSlotDescription() {
-			return "Java source folder";
+			return "Java package";
 		}
 
 		@Override
-		public String getURIForObject(JavaSourceFolder resourceData, Object o) {
+		public String getURIForObject(JavaPackage resourceData, Object o) {
 			// TODO Auto-generated method stub
 			return null;
 		}
 
 		@Override
-		public Object retrieveObjectWithURI(JavaSourceFolder resourceData, String objectURI) {
+		public Object retrieveObjectWithURI(JavaPackage resourceData, String objectURI) {
 			// TODO Auto-generated method stub
 			return null;
 		}
 
 		@Override
-		public ModelSlotInstance<?, JavaSourceFolder> makeActorReference(JavaSourceFolder object, FlexoConceptInstance fci) {
+		public ModelSlotInstance<?, JavaPackage> makeActorReference(JavaPackage object, FlexoConceptInstance fci) {
 			// TODO Auto-generated method stub
 			return null;
 		}

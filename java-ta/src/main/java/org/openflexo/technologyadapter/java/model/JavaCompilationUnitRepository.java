@@ -47,7 +47,7 @@ import org.openflexo.pamela.exceptions.ModelDefinitionException;
 import org.openflexo.pamela.factory.PamelaModelFactory;
 import org.openflexo.technologyadapter.java.JavaTechnologyAdapter;
 import org.openflexo.technologyadapter.java.rm.JavaCompilationUnitResource;
-import org.openflexo.technologyadapter.java.rm.JavaSourceFolderResource;
+import org.openflexo.technologyadapter.java.rm.JavaPackageResource;
 
 @ModelEntity
 @ImplementationClass(JavaCompilationUnitRepository.JavaCompilationUnitRepositoryImpl.class)
@@ -80,7 +80,7 @@ public interface JavaCompilationUnitRepository<I>
 			super.registerResource(resource, parentFolder);
 			System.out.println("Hop, on met " + resource + " dans " + parentFolder);
 
-			JavaSourceFolderResource sourceFolderResource = getTechnologyAdapter().getJavaSourceFolderRepository(getResourceCenter())
+			JavaPackageResource sourceFolderResource = getTechnologyAdapter().getJavaSourceFolderRepository(getResourceCenter())
 					.getResourceForFolder(parentFolder.getSerializationArtefact());
 			System.out.println("Le parent c'est " + sourceFolderResource);
 			if (sourceFolderResource != null) {

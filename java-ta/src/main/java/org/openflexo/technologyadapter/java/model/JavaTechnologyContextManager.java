@@ -51,7 +51,7 @@ import org.openflexo.foundation.resource.FlexoResourceCenterService;
 import org.openflexo.foundation.technologyadapter.TechnologyAdapterResource;
 import org.openflexo.foundation.technologyadapter.TechnologyContextManager;
 import org.openflexo.technologyadapter.java.JavaTechnologyAdapter;
-import org.openflexo.technologyadapter.java.rm.JavaSourceFolderResource;
+import org.openflexo.technologyadapter.java.rm.JavaPackageResource;
 import org.openflexo.toolbox.FileUtils;
 
 import spoon.IncrementalLauncher;
@@ -81,7 +81,7 @@ public class JavaTechnologyContextManager extends TechnologyContextManager<JavaT
 	public void registerResource(TechnologyAdapterResource<?, JavaTechnologyAdapter> resource) {
 		super.registerResource(resource);
 		// System.out.println("-----> registerResource " + resource);
-		if (resource instanceof JavaSourceFolderResource) {
+		if (resource instanceof JavaPackageResource) {
 			if (resource.getIODelegate().getSerializationArtefact() instanceof File) {
 				appendSourceDirectory((File) resource.getIODelegate().getSerializationArtefact());
 				/*System.out.println("On rajoute: " + ((File) resource.getIODelegate().getSerializationArtefact()).getAbsolutePath());

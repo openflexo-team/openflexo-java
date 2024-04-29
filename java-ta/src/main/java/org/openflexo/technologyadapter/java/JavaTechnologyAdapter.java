@@ -50,10 +50,10 @@ import org.openflexo.foundation.technologyadapter.TechnologyAdapter;
 import org.openflexo.foundation.technologyadapter.TechnologyAdapterBindingFactory;
 import org.openflexo.foundation.technologyadapter.TechnologyAdapterInitializationException;
 import org.openflexo.technologyadapter.java.model.JavaCompilationUnitRepository;
-import org.openflexo.technologyadapter.java.model.JavaSourceFolderRepository;
+import org.openflexo.technologyadapter.java.model.JavaPackageRepository;
 import org.openflexo.technologyadapter.java.model.JavaTechnologyContextManager;
 import org.openflexo.technologyadapter.java.rm.JavaCompilationUnitResourceFactory;
-import org.openflexo.technologyadapter.java.rm.JavaSourceFolderResourceFactory;
+import org.openflexo.technologyadapter.java.rm.JavaPackageResourceFactory;
 
 /**
  * This class defines and implements a {@link TechnologyAdapter} dealing with Java source code
@@ -65,8 +65,8 @@ import org.openflexo.technologyadapter.java.rm.JavaSourceFolderResourceFactory;
 		value = "Java technology adapter",
 		description = "<html>This technology adapter provides model federation facilities to manage Java source code or Java byte code<br>"
 				+ "This technology adapter is build on SPOON technology" + "</html>")
-@DeclareModelSlots({ JavaSourceFolderModelSlot.class })
-@DeclareResourceFactories({ JavaSourceFolderResourceFactory.class, JavaCompilationUnitResourceFactory.class })
+@DeclareModelSlots({ JavaPackageModelSlot.class })
+@DeclareResourceFactories({ JavaPackageResourceFactory.class, JavaCompilationUnitResourceFactory.class })
 public class JavaTechnologyAdapter extends TechnologyAdapter<JavaTechnologyAdapter> {
 
 	private static final Logger logger = Logger.getLogger(JavaTechnologyAdapter.class.getPackage().getName());
@@ -101,11 +101,11 @@ public class JavaTechnologyAdapter extends TechnologyAdapter<JavaTechnologyAdapt
 		return (JavaTechnologyContextManager) super.getTechnologyContextManager();
 	}
 
-	public <I> JavaSourceFolderRepository<I> getJavaSourceFolderRepository(FlexoResourceCenter<I> resourceCenter) {
-		JavaSourceFolderRepository<I> returned = resourceCenter.retrieveRepository(JavaSourceFolderRepository.class, this);
+	public <I> JavaPackageRepository<I> getJavaSourceFolderRepository(FlexoResourceCenter<I> resourceCenter) {
+		JavaPackageRepository<I> returned = resourceCenter.retrieveRepository(JavaPackageRepository.class, this);
 		if (returned == null) {
-			returned = JavaSourceFolderRepository.instanciateNewRepository(this, resourceCenter);
-			resourceCenter.registerRepository(returned, JavaSourceFolderRepository.class, this);
+			returned = JavaPackageRepository.instanciateNewRepository(this, resourceCenter);
+			resourceCenter.registerRepository(returned, JavaPackageRepository.class, this);
 		}
 		return returned;
 	}
@@ -139,8 +139,8 @@ public class JavaTechnologyAdapter extends TechnologyAdapter<JavaTechnologyAdapt
 		return "JAVA";
 	}
 
-	public JavaSourceFolderResourceFactory getJavaSourceFolderResourceFactory() {
-		return getResourceFactory(JavaSourceFolderResourceFactory.class);
+	public JavaPackageResourceFactory getJavaSourceFolderResourceFactory() {
+		return getResourceFactory(JavaPackageResourceFactory.class);
 	}
 
 	public JavaCompilationUnitResourceFactory getJavaCompilationUnitResourceFactory() {

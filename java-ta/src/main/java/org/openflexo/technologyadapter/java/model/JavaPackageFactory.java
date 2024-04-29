@@ -48,7 +48,7 @@ import org.openflexo.pamela.exceptions.ModelDefinitionException;
 import org.openflexo.pamela.factory.EditingContext;
 import org.openflexo.pamela.factory.PamelaModelFactory;
 import org.openflexo.technologyadapter.java.rm.JavaCompilationUnitResource;
-import org.openflexo.technologyadapter.java.rm.JavaSourceFolderResource;
+import org.openflexo.technologyadapter.java.rm.JavaPackageResource;
 
 /**
  * Model factory for managing {@link JavaCompilationUnit}<br>
@@ -57,28 +57,28 @@ import org.openflexo.technologyadapter.java.rm.JavaSourceFolderResource;
  * @author sylvain
  * 
  */
-public class JavaPackageFactory extends PamelaModelFactory implements PamelaResourceModelFactory<JavaSourceFolderResource> {
+public class JavaPackageFactory extends PamelaModelFactory implements PamelaResourceModelFactory<JavaPackageResource> {
 
 	@SuppressWarnings("unused")
 	private static final Logger logger = Logger.getLogger(JavaPackageFactory.class.getPackage().getName());
 
-	private final JavaSourceFolderResource resource;
+	private final JavaPackageResource resource;
 	private IgnoreLoadingEdits ignoreHandler = null;
 	private FlexoUndoManager undoManager = null;
 
-	public JavaPackageFactory(JavaSourceFolderResource resource, EditingContext editingContext) throws ModelDefinitionException {
-		super(PamelaMetaModelLibrary.retrieveMetaModel(JavaSourceFolder.class));
+	public JavaPackageFactory(JavaPackageResource resource, EditingContext editingContext) throws ModelDefinitionException {
+		super(PamelaMetaModelLibrary.retrieveMetaModel(JavaPackage.class));
 		this.resource = resource;
 		setEditingContext(editingContext);
 	}
 
 	@Override
-	public JavaSourceFolderResource getResource() {
+	public JavaPackageResource getResource() {
 		return resource;
 	}
 
-	public JavaSourceFolder makeJavaSourceFolder() {
-		JavaSourceFolder returned = newInstance(JavaSourceFolder.class);
+	public JavaPackage makeJavaSourceFolder() {
+		JavaPackage returned = newInstance(JavaPackage.class);
 		return returned;
 	}
 

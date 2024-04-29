@@ -1,6 +1,7 @@
 /**
  * 
- * Copyright (c) 2014, Openflexo
+ * Copyright (c) 2013-2014, Openflexo
+ * Copyright (c) 2011-2012, AgileBirds
  * 
  * This file is part of Owlconnector, a component of the software infrastructure 
  * developed at Openflexo.
@@ -38,54 +39,36 @@
 
 package org.openflexo.technologyadapter.java.rm;
 
-import java.io.IOException;
-import java.util.logging.Logger;
-
-import org.openflexo.foundation.resource.PamelaResourceImpl;
-import org.openflexo.foundation.resource.SaveResourceException;
+import org.openflexo.foundation.resource.PamelaResource;
+import org.openflexo.foundation.technologyadapter.TechnologyAdapterResource;
+import org.openflexo.pamela.annotations.Getter;
+import org.openflexo.pamela.annotations.ImplementationClass;
+import org.openflexo.pamela.annotations.ModelEntity;
+import org.openflexo.pamela.annotations.Setter;
+import org.openflexo.technologyadapter.java.JavaTechnologyAdapter;
 import org.openflexo.technologyadapter.java.model.JavaPackageFactory;
-import org.openflexo.technologyadapter.java.model.JavaSourceFolder;
+import org.openflexo.technologyadapter.java.model.JavaPackage;
+import org.openflexo.technologyadapter.java.model.JavaTechnologyContextManager;
 
 /**
- * Represents the resource associated to a {@link OWLOntology}
+ * Represents the resource associated to a Java source folder
  * 
  * @author sguerin
  * 
  */
-public abstract class JavaSourceFolderResourceImpl extends PamelaResourceImpl<JavaSourceFolder, JavaPackageFactory>
-		implements JavaSourceFolderResource {
+@ModelEntity
+@ImplementationClass(JavaPackageResourceImpl.class)
+public interface JavaPackageResource
+		extends TechnologyAdapterResource<JavaPackage, JavaTechnologyAdapter>, PamelaResource<JavaPackage, JavaPackageFactory> {
 
-	private static final Logger logger = Logger.getLogger(JavaSourceFolderResourceImpl.class.getPackage().getName());
+	public static final String CONTEXT_MANAGER = "contextManager";
 
-	@Override
-	public String getDisplayName() {
-		return getFullQualifiedPackageName();
-	}
+	@Getter(value = CONTEXT_MANAGER, ignoreType = true)
+	public JavaTechnologyContextManager getContextManager();
 
-	@Override
-	protected JavaSourceFolder performLoad() throws IOException, Exception {
-		if (getContainer() != null) {
-			getContainer().getResourceData();
-		}
-		return getFactory().makeJavaSourceFolder();
-	}
+	@Setter(CONTEXT_MANAGER)
+	public void setContextManager(JavaTechnologyContextManager contextManager);
 
-	@Override
-	public String getFullQualifiedPackageName() {
-		if (getContainer() instanceof JavaSourceFolderResource) {
-			return ((JavaSourceFolderResource) getContainer()).getFullQualifiedPackageName() + "." + getName();
-		}
-		return getName();
-	}
-
-	@Override
-	protected void performSave(boolean clearIsModified) throws SaveResourceException {
-		// nothing to do
-	}
-
-	@Override
-	public Class<JavaSourceFolder> getResourceDataClass() {
-		return JavaSourceFolder.class;
-	}
+	public String getFullQualifiedPackageName();
 
 }

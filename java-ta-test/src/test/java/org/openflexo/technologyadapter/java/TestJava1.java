@@ -61,10 +61,10 @@ import org.openflexo.rm.FileResourceImpl;
 import org.openflexo.rm.Resource;
 import org.openflexo.rm.ResourceLocator;
 import org.openflexo.technologyadapter.java.model.JavaCompilationUnitRepository;
-import org.openflexo.technologyadapter.java.model.JavaSourceFolderRepository;
+import org.openflexo.technologyadapter.java.model.JavaPackageRepository;
 import org.openflexo.technologyadapter.java.rm.JavaCompilationUnitResource;
 import org.openflexo.technologyadapter.java.rm.JavaCompilationUnitResourceFactory;
-import org.openflexo.technologyadapter.java.rm.JavaSourceFolderResource;
+import org.openflexo.technologyadapter.java.rm.JavaPackageResource;
 import org.openflexo.test.OrderedRunner;
 import org.openflexo.test.TestOrder;
 import org.openflexo.toolbox.FileUtils;
@@ -76,7 +76,7 @@ public class TestJava1 extends OpenflexoProjectAtRunTimeTestCase {
 	protected static final Logger logger = Logger.getLogger(TestJava1.class.getPackage().getName());
 
 	private static JavaTechnologyAdapter javaTechnologyAdapter;
-	private static JavaSourceFolderRepository<?> javaSourceFolderRepository;
+	private static JavaPackageRepository<?> javaPackageRepository;
 	private static JavaCompilationUnitRepository<?> javaCompilationUnitRepository;
 
 	protected void copyJavaSourceFiles(String relativePath) throws IOException {
@@ -152,19 +152,19 @@ public class TestJava1 extends OpenflexoProjectAtRunTimeTestCase {
 
 		javaTechnologyAdapter = serviceManager.getTechnologyAdapterService().getTechnologyAdapter(JavaTechnologyAdapter.class);
 
-		javaSourceFolderRepository = javaTechnologyAdapter.getJavaSourceFolderRepository(resourceCenter);
-		System.out.println("javaSourceFolderRepository=" + javaSourceFolderRepository);
-		System.out.println("allResources=" + javaSourceFolderRepository.getAllResources());
+		javaPackageRepository = javaTechnologyAdapter.getJavaSourceFolderRepository(resourceCenter);
+		System.out.println("javaPackageRepository=" + javaPackageRepository);
+		System.out.println("allResources=" + javaPackageRepository.getAllResources());
 
-		for (JavaSourceFolderResource javaSourceFolderResource : javaSourceFolderRepository.getAllResources()) {
+		for (JavaPackageResource javaPackageResource : javaPackageRepository.getAllResources()) {
 			System.out.println(
-					"> " + javaSourceFolderResource + " in " + javaSourceFolderResource.getIODelegate().getSerializationArtefact());
+					"> " + javaPackageResource + " in " + javaPackageResource.getIODelegate().getSerializationArtefact());
 		}
 
 		FlexoResource<?> rootSourceFolderResource = getResourceWithSerializationArtefactWithName(
-				javaSourceFolderRepository.getAllResources(), "TestResourceCenter");
+				javaPackageRepository.getAllResources(), "TestResourceCenter");
 		FlexoResource<?> javaCodeSourceFolderResource = getResourceWithSerializationArtefactWithName(
-				javaSourceFolderRepository.getAllResources(), "JavaCode");
+				javaPackageRepository.getAllResources(), "JavaCode");
 
 		assertNotNull(rootSourceFolderResource);
 		assertNotNull(javaCodeSourceFolderResource);

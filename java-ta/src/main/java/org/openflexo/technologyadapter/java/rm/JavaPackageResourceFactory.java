@@ -29,25 +29,25 @@ import org.openflexo.foundation.technologyadapter.TechnologyContextManager;
 import org.openflexo.pamela.exceptions.ModelDefinitionException;
 import org.openflexo.technologyadapter.java.JavaTechnologyAdapter;
 import org.openflexo.technologyadapter.java.model.JavaPackageFactory;
-import org.openflexo.technologyadapter.java.model.JavaSourceFolder;
+import org.openflexo.technologyadapter.java.model.JavaPackage;
 
 /**
- * Implementation of ResourceFactory for {@link JavaSourceFolderResource}
+ * Implementation of ResourceFactory for {@link JavaPackageResource}
  * 
  * @author sylvain
  *
  */
-public class JavaSourceFolderResourceFactory extends
-		TechnologySpecificPamelaResourceFactory<JavaSourceFolderResource, JavaSourceFolder, JavaTechnologyAdapter, JavaPackageFactory> {
+public class JavaPackageResourceFactory extends
+		TechnologySpecificPamelaResourceFactory<JavaPackageResource, JavaPackage, JavaTechnologyAdapter, JavaPackageFactory> {
 
-	private static final Logger logger = Logger.getLogger(JavaSourceFolderResourceFactory.class.getPackage().getName());
+	private static final Logger logger = Logger.getLogger(JavaPackageResourceFactory.class.getPackage().getName());
 
-	public JavaSourceFolderResourceFactory() throws ModelDefinitionException {
-		super(JavaSourceFolderResource.class);
+	public JavaPackageResourceFactory() throws ModelDefinitionException {
+		super(JavaPackageResource.class);
 	}
 
 	@Override
-	public JavaSourceFolder makeEmptyResourceData(JavaSourceFolderResource resource) {
+	public JavaPackage makeEmptyResourceData(JavaPackageResource resource) {
 		logger.warning("Not implemented: makeEmptyResourceData()");
 		return null;
 	}
@@ -77,10 +77,10 @@ public class JavaSourceFolderResourceFactory extends
 	}
 
 	@Override
-	public <I> JavaSourceFolderResource registerResource(JavaSourceFolderResource resource, FlexoResourceCenter<I> resourceCenter) {
+	public <I> JavaPackageResource registerResource(JavaPackageResource resource, FlexoResourceCenter<I> resourceCenter) {
 		super.registerResource(resource, resourceCenter);
 
-		// Register the resource in the JavaSourceFolderRepository of supplied resource center
+		// Register the resource in the JavaPackageRepository of supplied resource center
 		registerResourceInResourceRepository(resource,
 				getTechnologyAdapter(resourceCenter.getServiceManager()).getJavaSourceFolderRepository(resourceCenter));
 
@@ -88,16 +88,16 @@ public class JavaSourceFolderResourceFactory extends
 	}
 
 	@Override
-	protected <I> JavaSourceFolderResource initResourceForRetrieving(I serializationArtefact, FlexoResourceCenter<I> resourceCenter)
+	protected <I> JavaPackageResource initResourceForRetrieving(I serializationArtefact, FlexoResourceCenter<I> resourceCenter)
 			throws ModelDefinitionException, IOException {
-		JavaSourceFolderResource returned = super.initResourceForRetrieving(serializationArtefact, resourceCenter);
+		JavaPackageResource returned = super.initResourceForRetrieving(serializationArtefact, resourceCenter);
 		logger.warning("TODO: set URI for " + serializationArtefact);
 		// returned.setURI(OWLOntology.findOntologyURI(returned.getIODelegate().getSerializationArtefactAsResource()));
 		return returned;
 	}
 
 	@Override
-	public JavaPackageFactory makeModelFactory(JavaSourceFolderResource resource,
+	public JavaPackageFactory makeModelFactory(JavaPackageResource resource,
 			TechnologyContextManager<JavaTechnologyAdapter> technologyContextManager) throws ModelDefinitionException {
 		return new JavaPackageFactory(resource, technologyContextManager.getServiceManager().getEditingContext());
 	}

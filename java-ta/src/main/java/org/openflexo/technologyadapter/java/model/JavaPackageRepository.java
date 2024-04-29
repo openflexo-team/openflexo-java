@@ -49,21 +49,21 @@ import org.openflexo.pamela.annotations.ModelEntity;
 import org.openflexo.pamela.exceptions.ModelDefinitionException;
 import org.openflexo.pamela.factory.PamelaModelFactory;
 import org.openflexo.technologyadapter.java.JavaTechnologyAdapter;
-import org.openflexo.technologyadapter.java.rm.JavaSourceFolderResource;
+import org.openflexo.technologyadapter.java.rm.JavaPackageResource;
 
 @ModelEntity
-@ImplementationClass(JavaSourceFolderRepository.JavaSourceFolderRepositoryImpl.class)
-public interface JavaSourceFolderRepository<I>
-		extends TechnologyAdapterResourceRepository<JavaSourceFolderResource, JavaTechnologyAdapter, JavaSourceFolder, I> {
+@ImplementationClass(JavaPackageRepository.JavaSourceFolderRepositoryImpl.class)
+public interface JavaPackageRepository<I>
+		extends TechnologyAdapterResourceRepository<JavaPackageResource, JavaTechnologyAdapter, JavaPackage, I> {
 
-	public JavaSourceFolderResource getResourceForFolder(I folder);
+	public JavaPackageResource getResourceForFolder(I folder);
 
-	public static <I> JavaSourceFolderRepository<I> instanciateNewRepository(JavaTechnologyAdapter technologyAdapter,
+	public static <I> JavaPackageRepository<I> instanciateNewRepository(JavaTechnologyAdapter technologyAdapter,
 			FlexoResourceCenter<I> resourceCenter) {
 		PamelaModelFactory factory;
 		try {
-			factory = new PamelaModelFactory(JavaSourceFolderRepository.class);
-			JavaSourceFolderRepository<I> newRepository = factory.newInstance(JavaSourceFolderRepository.class);
+			factory = new PamelaModelFactory(JavaPackageRepository.class);
+			JavaPackageRepository<I> newRepository = factory.newInstance(JavaPackageRepository.class);
 			newRepository.setTechnologyAdapter(technologyAdapter);
 			newRepository.setResourceCenter(resourceCenter);
 			newRepository.setBaseArtefact(resourceCenter.getBaseArtefact());
@@ -76,24 +76,24 @@ public interface JavaSourceFolderRepository<I>
 	}
 
 	public static abstract class JavaSourceFolderRepositoryImpl<I>
-			extends TechnologyAdapterResourceRepositoryImpl<JavaSourceFolderResource, JavaTechnologyAdapter, JavaSourceFolder, I>
-			implements JavaSourceFolderRepository<I> {
+			extends TechnologyAdapterResourceRepositoryImpl<JavaPackageResource, JavaTechnologyAdapter, JavaPackage, I>
+			implements JavaPackageRepository<I> {
 
-		private Map<I, JavaSourceFolderResource> resourcesStoredByFolder = new HashMap<>();
+		private Map<I, JavaPackageResource> resourcesStoredByFolder = new HashMap<>();
 
 		@Override
-		public void registerResource(JavaSourceFolderResource resource, RepositoryFolder<JavaSourceFolderResource, I> parentFolder) {
+		public void registerResource(JavaPackageResource resource, RepositoryFolder<JavaPackageResource, I> parentFolder) {
 			super.registerResource(resource, parentFolder);
 			System.out.println("Coucou " + resource + " dans " + parentFolder.getSerializationArtefact());
 			resourcesStoredByFolder.put((I) resource.getIODelegate().getSerializationArtefact(), resource);
-			JavaSourceFolderResource parent = getResourceForFolder(parentFolder.getSerializationArtefact());
+			JavaPackageResource parent = getResourceForFolder(parentFolder.getSerializationArtefact());
 			if (parent != null) {
 				parent.addToContents(resource);
 			}
 		}
 
 		@Override
-		public JavaSourceFolderResource getResourceForFolder(I folder) {
+		public JavaPackageResource getResourceForFolder(I folder) {
 			return resourcesStoredByFolder.get(folder);
 		}
 

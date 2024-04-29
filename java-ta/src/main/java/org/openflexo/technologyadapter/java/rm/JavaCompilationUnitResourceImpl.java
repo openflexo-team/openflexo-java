@@ -72,8 +72,8 @@ public abstract class JavaCompilationUnitResourceImpl extends PamelaResourceImpl
 		if (javaName.contains(JavaCompilationUnitResourceFactory.JAVA_FILE_EXTENSION)) {
 			javaName = javaName.substring(0, javaName.length() - JavaCompilationUnitResourceFactory.JAVA_FILE_EXTENSION.length());
 		}
-		if (getContainer() instanceof JavaSourceFolderResource) {
-			return ((JavaSourceFolderResource) getContainer()).getFullQualifiedPackageName() + "." + javaName;
+		if (getContainer() instanceof JavaPackageResource) {
+			return ((JavaPackageResource) getContainer()).getFullQualifiedPackageName() + "." + javaName;
 		}
 		return javaName;
 	}

@@ -50,7 +50,7 @@ import org.openflexo.foundation.technologyadapter.TechnologyObject;
 import org.openflexo.gina.utils.InspectorGroup;
 import org.openflexo.technologyadapter.java.JavaTechnologyAdapter;
 import org.openflexo.technologyadapter.java.gui.JavaIconLibrary;
-import org.openflexo.technologyadapter.java.rm.JavaSourceFolderResource;
+import org.openflexo.technologyadapter.java.rm.JavaPackageResource;
 import org.openflexo.view.EmptyPanel;
 import org.openflexo.view.ModuleView;
 import org.openflexo.view.controller.ControllerActionInitializer;
@@ -250,7 +250,7 @@ public class JavaAdapterController extends TechnologyAdapterController<JavaTechn
 
 	@Override
 	public boolean shouldDisplayContents(FlexoResource<?> resource) {
-		if (resource instanceof JavaSourceFolderResource) {
+		if (resource instanceof JavaPackageResource) {
 			return true;
 		}
 		return super.shouldDisplayContents(resource);

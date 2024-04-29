@@ -45,7 +45,7 @@ import org.openflexo.pamela.annotations.ImplementationClass;
 import org.openflexo.pamela.annotations.ModelEntity;
 import org.openflexo.pamela.annotations.XMLElement;
 import org.openflexo.technologyadapter.java.JavaTechnologyAdapter;
-import org.openflexo.technologyadapter.java.rm.JavaSourceFolderResource;
+import org.openflexo.technologyadapter.java.rm.JavaPackageResource;
 
 /**
  * Represents an Java source folder
@@ -54,9 +54,9 @@ import org.openflexo.technologyadapter.java.rm.JavaSourceFolderResource;
  * 
  */
 @ModelEntity
-@ImplementationClass(value = JavaSourceFolder.JavaSourceFolderImpl.class)
+@ImplementationClass(value = JavaPackage.JavaPackageImpl.class)
 @XMLElement
-public interface JavaSourceFolder extends JavaSourceObject, ResourceData<JavaSourceFolder> {
+public interface JavaPackage extends JavaSourceObject, ResourceData<JavaPackage> {
 
 	/**
 	 * Return name of the sheet
@@ -66,22 +66,22 @@ public interface JavaSourceFolder extends JavaSourceObject, ResourceData<JavaSou
 	public String getRelativePath();
 
 	@Override
-	public JavaSourceFolderResource getResource();
+	public JavaPackageResource getResource();
 
 	public String getName();
 
 	public String getFullQualifiedPackageName();
 
 	/**
-	 * Default base implementation for {@link JavaSourceFolder}
+	 * Default base implementation for {@link JavaPackage}
 	 * 
 	 * @author sylvain
 	 *
 	 */
-	public static abstract class JavaSourceFolderImpl extends JavaSourceObjectImpl implements JavaSourceFolder {
+	public static abstract class JavaPackageImpl extends JavaSourceObjectImpl implements JavaPackage {
 
 		@SuppressWarnings("unused")
-		private static final Logger logger = Logger.getLogger(JavaSourceFolderImpl.class.getPackage().getName());
+		private static final Logger logger = Logger.getLogger(JavaPackageImpl.class.getPackage().getName());
 
 		@Override
 		public JavaTechnologyAdapter getTechnologyAdapter() {
