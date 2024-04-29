@@ -42,6 +42,8 @@ import java.lang.reflect.Type;
 
 import org.openflexo.foundation.fml.FlexoRole;
 import org.openflexo.foundation.fml.annotations.FML;
+import org.openflexo.foundation.fml.rt.ActorReference;
+import org.openflexo.foundation.fml.rt.FlexoConceptInstance;
 import org.openflexo.foundation.technologyadapter.TechnologyAdapter;
 import org.openflexo.pamela.annotations.ImplementationClass;
 import org.openflexo.pamela.annotations.ModelEntity;
@@ -65,6 +67,23 @@ public interface JavaClassRole extends FlexoRole<JavaSourceElement> {
 		@Override
 		public Type getType() {
 			return JavaSourceElement.class;
+		}
+
+		@Override
+		public RoleCloningStrategy defaultCloningStrategy() {
+			return RoleCloningStrategy.Clone;
+		}
+
+		@Override
+		public ActorReference<? extends JavaSourceElement> makeActorReference(JavaSourceElement object, FlexoConceptInstance fci) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public boolean defaultBehaviourIsToBeDeleted() {
+			// TODO Auto-generated method stub
+			return false;
 		}
 
 	}

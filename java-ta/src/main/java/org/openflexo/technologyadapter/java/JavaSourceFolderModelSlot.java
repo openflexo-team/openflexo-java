@@ -45,6 +45,8 @@ import java.util.logging.Logger;
 import org.openflexo.foundation.fml.FlexoRole;
 import org.openflexo.foundation.fml.annotations.DeclareFlexoRoles;
 import org.openflexo.foundation.fml.annotations.FML;
+import org.openflexo.foundation.fml.rt.FlexoConceptInstance;
+import org.openflexo.foundation.fml.rt.ModelSlotInstance;
 import org.openflexo.foundation.technologyadapter.ModelSlot;
 import org.openflexo.pamela.PamelaMetaModelLibrary;
 import org.openflexo.pamela.annotations.ImplementationClass;
@@ -62,7 +64,7 @@ import org.openflexo.technologyadapter.java.model.JavaSourceFolder;
  */
 @DeclareFlexoRoles({ JavaClassRole.class })
 @ModelEntity
-@ImplementationClass(JavaSourceFolderModelSlot.OWLModelSlotImpl.class)
+@ImplementationClass(JavaSourceFolderModelSlot.JavaSourceFolderModelSlotImpl.class)
 @XMLElement
 @FML("JavaSourceFolderModelSlot")
 /*@FML(
@@ -83,7 +85,8 @@ public interface JavaSourceFolderModelSlot extends ModelSlot<JavaSourceFolder> {
 	@Override
 	public JavaTechnologyAdapter getModelSlotTechnologyAdapter();
 
-	public static abstract class OWLModelSlotImpl extends ModelSlotImpl<JavaSourceFolder> implements JavaSourceFolderModelSlot {
+	public static abstract class JavaSourceFolderModelSlotImpl extends ModelSlotImpl<JavaSourceFolder>
+			implements JavaSourceFolderModelSlot {
 
 		private static final Logger logger = Logger.getLogger(JavaSourceFolderModelSlot.class.getPackage().getName());
 
@@ -134,5 +137,22 @@ public interface JavaSourceFolderModelSlot extends ModelSlot<JavaSourceFolder> {
 			return "Java source folder";
 		}
 
+		@Override
+		public String getURIForObject(JavaSourceFolder resourceData, Object o) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public Object retrieveObjectWithURI(JavaSourceFolder resourceData, String objectURI) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public ModelSlotInstance<?, JavaSourceFolder> makeActorReference(JavaSourceFolder object, FlexoConceptInstance fci) {
+			// TODO Auto-generated method stub
+			return null;
+		}
 	}
 }

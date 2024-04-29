@@ -38,13 +38,10 @@
 
 package org.openflexo.technologyadapter.java.rm;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-import org.openflexo.foundation.FlexoException;
 import org.openflexo.foundation.resource.PamelaResourceImpl;
-import org.openflexo.foundation.resource.ResourceLoadingCancelledException;
 import org.openflexo.foundation.resource.SaveResourceException;
 import org.openflexo.technologyadapter.java.model.JavaCompilationUnit;
 import org.openflexo.technologyadapter.java.model.JavaModelFactory;
@@ -84,66 +81,11 @@ public abstract class JavaCompilationUnitResourceImpl extends PamelaResourceImpl
 	@Override
 	protected JavaCompilationUnit performLoad() throws IOException, Exception {
 
-		CtModel model = getTechnologyContextManager().getModelAnalysis();
-
-		System.out.println("CtModel=" + model);
-		System.out.println("Load: " + getFullQualifiedClassName());
-		System.out.println("On trouve: " + getCtType());
-		System.out.println("La factory: " + getFactory());
-
-		/*SourcePosition sp = getCtType().getPosition();
-		CtCompilationUnit compilationUnit = sp.getCompilationUnit();
-		
-		System.out.println("Hop: " + compilationUnit);
-		
-		System.out.println("Type: " + compilationUnit.getMainType());
-		System.out.println("Imports: " + compilationUnit.getImports());*/
-
-		return getFactory().makeJavaCompilationUnit(getCtType().getPosition().getCompilationUnit());
-
-		/*if (getFlexoIOStreamDelegate() == null) {
-			throw new FlexoException("Cannot load DocX document with this IO/delegate: " + getIODelegate());
+		if (getContainer() != null) {
+			getContainer().getResourceData();
 		}
-		
-		Progress.progress(getLocales().localizedForKey("loading") + " " + getIODelegate().getSerializationArtefact());
-		try {
-			WordprocessingMLPackage wpmlPackage = WordprocessingMLPackage.load(getInputStream());
-		
-			DocXDocument returned = getFactory().makeNewDocXDocument(wpmlPackage);
-			return returned;
-		} catch (Docx4JException e) {
-			e.printStackTrace();
-			throw new FlexoException(e);
-		}*/
-
+		return getFactory().makeJavaCompilationUnit(getCtType().getPosition().getCompilationUnit());
 	}
-
-	/**
-	 * Load the &quot;real&quot; load resource data of this resource.
-	 * 
-	 * @param progress
-	 *            a progress monitor in case the resource data is not immediately available.
-	 * @return the resource data.
-	 * @throws ResourceLoadingCancelledException
-	 * @throws ResourceDependencyLoopException
-	 * @throws FileNotFoundException
-	 * @throws FlexoException
-	 */
-	/*@Override
-	public JavaCompilationUnit loadResourceData() throws ResourceLoadingCancelledException, FileNotFoundException, FlexoException {
-		// JavaSourceFolder returned = new OWLOntology(getURI(), getIODelegate().getSerializationArtefactAsResource(), getOntologyLibrary(),
-		// getTechnologyAdapter());
-		// returned.setResource(this);
-		// resourceData = returned;
-	
-		CtModel model = getTechnologyContextManager().getModelAnalysis();
-	
-		System.out.println("CtModel=" + model);
-		System.out.println("Load: " + getFullQualifiedClassName());
-		System.out.println("On trouve: " + getCtType());
-	
-		return null;
-	}*/
 
 	private CtType<?> getCtType() {
 		CtModel model = getTechnologyContextManager().getModelAnalysis();

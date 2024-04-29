@@ -3,7 +3,7 @@
  * Copyright (c) 2013-2014, Openflexo
  * Copyright (c) 2011-2012, AgileBirds
  * 
- * This file is part of Owlconnector, a component of the software infrastructure 
+ * This file is part of Openflexo-technology-adapters-ui, a component of the software infrastructure 
  * developed at Openflexo.
  * 
  * 
@@ -37,38 +37,24 @@
  * 
  */
 
-package org.openflexo.technologyadapter.java.rm;
+package org.openflexo.technologyadapter.java.controller;
 
-import org.openflexo.foundation.resource.PamelaResource;
-import org.openflexo.foundation.technologyadapter.TechnologyAdapterResource;
-import org.openflexo.pamela.annotations.Getter;
-import org.openflexo.pamela.annotations.ImplementationClass;
-import org.openflexo.pamela.annotations.ModelEntity;
-import org.openflexo.pamela.annotations.Setter;
-import org.openflexo.technologyadapter.java.JavaTechnologyAdapter;
-import org.openflexo.technologyadapter.java.model.JavaPackageFactory;
-import org.openflexo.technologyadapter.java.model.JavaSourceFolder;
-import org.openflexo.technologyadapter.java.model.JavaTechnologyContextManager;
+import org.openflexo.rm.Resource;
+import org.openflexo.rm.ResourceLocator;
 
 /**
- * Represents the resource associated to a Java source folder
+ * Encodes FIB components used in the context of OWL technology adapter
  * 
- * @author sguerin
- * 
+ * @author sylvain
  */
-@ModelEntity
-@ImplementationClass(JavaSourceFolderResourceImpl.class)
-public interface JavaSourceFolderResource
-		extends TechnologyAdapterResource<JavaSourceFolder, JavaTechnologyAdapter>, PamelaResource<JavaSourceFolder, JavaPackageFactory> {
+public class JavaFIBLibrary {
 
-	public static final String CONTEXT_MANAGER = "contextManager";
-
-	@Getter(value = CONTEXT_MANAGER, ignoreType = true)
-	public JavaTechnologyContextManager getContextManager();
-
-	@Setter(CONTEXT_MANAGER)
-	public void setContextManager(JavaTechnologyContextManager contextManager);
-
-	public String getFullQualifiedPackageName();
+	
+	
+	public static Resource CREATE_ONTOLOGY_CLASS_DIALOG_FIB = ResourceLocator.locateResource("Fib/Dialog/CreateOntologyClassDialog.fib");
+	public static Resource CREATE_ONTOLOGY_INDIVIDUAL_FIB = ResourceLocator.locateResource("Fib/Dialog/CreateOntologyIndividualDialog.fib");
+	public static Resource DELETE_ONTOLOGY_OBJECTS_DIALOG_FIB = ResourceLocator.locateResource("Fib/Dialog/DeleteOntologyObjectsDialog.fib");
+	public static Resource CREATE_DATA_PROPERTY_DIALOG_FIB = ResourceLocator.locateResource("Fib/Dialog/CreateDataPropertyDialog.fib");
+	public static Resource CREATE_OBJECT_PROPERTY_DIALOG_FIB = ResourceLocator.locateResource("Fib/Dialog/CreateObjectPropertyDialog.fib");
 
 }

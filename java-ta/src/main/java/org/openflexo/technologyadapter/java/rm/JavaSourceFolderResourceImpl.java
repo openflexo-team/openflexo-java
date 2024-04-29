@@ -38,13 +38,12 @@
 
 package org.openflexo.technologyadapter.java.rm;
 
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.logging.Logger;
 
-import org.openflexo.foundation.FlexoException;
-import org.openflexo.foundation.resource.FlexoResourceImpl;
-import org.openflexo.foundation.resource.ResourceLoadingCancelledException;
+import org.openflexo.foundation.resource.PamelaResourceImpl;
 import org.openflexo.foundation.resource.SaveResourceException;
+import org.openflexo.technologyadapter.java.model.JavaPackageFactory;
 import org.openflexo.technologyadapter.java.model.JavaSourceFolder;
 
 /**
@@ -53,28 +52,22 @@ import org.openflexo.technologyadapter.java.model.JavaSourceFolder;
  * @author sguerin
  * 
  */
-public abstract class JavaSourceFolderResourceImpl extends FlexoResourceImpl<JavaSourceFolder> implements JavaSourceFolderResource {
+public abstract class JavaSourceFolderResourceImpl extends PamelaResourceImpl<JavaSourceFolder, JavaPackageFactory>
+		implements JavaSourceFolderResource {
 
 	private static final Logger logger = Logger.getLogger(JavaSourceFolderResourceImpl.class.getPackage().getName());
 
-	/**
-	 * Load the &quot;real&quot; load resource data of this resource.
-	 * 
-	 * @param progress
-	 *            a progress monitor in case the resource data is not immediately available.
-	 * @return the resource data.
-	 * @throws ResourceLoadingCancelledException
-	 * @throws ResourceDependencyLoopException
-	 * @throws FileNotFoundException
-	 * @throws FlexoException
-	 */
 	@Override
-	public JavaSourceFolder loadResourceData() throws ResourceLoadingCancelledException, FileNotFoundException, FlexoException {
-		// JavaSourceFolder returned = new OWLOntology(getURI(), getIODelegate().getSerializationArtefactAsResource(), getOntologyLibrary(),
-		// getTechnologyAdapter());
-		// returned.setResource(this);
-		// resourceData = returned;
-		return null;
+	public String getDisplayName() {
+		return getFullQualifiedPackageName();
+	}
+
+	@Override
+	protected JavaSourceFolder performLoad() throws IOException, Exception {
+		if (getContainer() != null) {
+			getContainer().getResourceData();
+		}
+		return getFactory().makeJavaSourceFolder();
 	}
 
 	@Override
@@ -85,14 +78,9 @@ public abstract class JavaSourceFolderResourceImpl extends FlexoResourceImpl<Jav
 		return getName();
 	}
 
-	/**
-	 * Save the &quot;real&quot; resource data of this resource.
-	 * 
-	 * @throws SaveResourceException
-	 */
 	@Override
-	public void save() throws SaveResourceException {
-		// TODO
+	protected void performSave(boolean clearIsModified) throws SaveResourceException {
+		// nothing to do
 	}
 
 	@Override

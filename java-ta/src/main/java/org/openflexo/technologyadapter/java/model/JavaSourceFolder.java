@@ -68,6 +68,10 @@ public interface JavaSourceFolder extends JavaSourceObject, ResourceData<JavaSou
 	@Override
 	public JavaSourceFolderResource getResource();
 
+	public String getName();
+
+	public String getFullQualifiedPackageName();
+
 	/**
 	 * Default base implementation for {@link JavaSourceFolder}
 	 * 
@@ -83,6 +87,22 @@ public interface JavaSourceFolder extends JavaSourceObject, ResourceData<JavaSou
 		public JavaTechnologyAdapter getTechnologyAdapter() {
 			if (getResource() != null) {
 				return getResource().getTechnologyAdapter();
+			}
+			return null;
+		}
+
+		@Override
+		public String getName() {
+			if (getResource() != null) {
+				return getResource().getName();
+			}
+			return null;
+		}
+
+		@Override
+		public String getFullQualifiedPackageName() {
+			if (getResource() != null) {
+				return getResource().getFullQualifiedPackageName();
 			}
 			return null;
 		}

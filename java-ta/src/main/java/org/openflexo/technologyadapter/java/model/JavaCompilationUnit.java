@@ -47,6 +47,7 @@ import org.openflexo.pamela.annotations.ModelEntity;
 import org.openflexo.pamela.annotations.PropertyIdentifier;
 import org.openflexo.pamela.annotations.Setter;
 import org.openflexo.pamela.annotations.XMLElement;
+import org.openflexo.technologyadapter.java.JavaTechnologyAdapter;
 import org.openflexo.technologyadapter.java.rm.JavaCompilationUnitResource;
 
 import spoon.reflect.declaration.CtCompilationUnit;
@@ -84,6 +85,8 @@ public interface JavaCompilationUnit extends JavaSourceObject, ResourceData<Java
 	@Setter(COMPILATION_UNIT_KEY)
 	public void setCompilationUnit(CtCompilationUnit cu);
 
+	public String getName();
+
 	/**
 	 * Default base implementation for {@link JavaCompilationUnit}
 	 * 
@@ -95,5 +98,21 @@ public interface JavaCompilationUnit extends JavaSourceObject, ResourceData<Java
 		@SuppressWarnings("unused")
 		private static final Logger logger = Logger.getLogger(JavaCompilationUnitImpl.class.getPackage().getName());
 
+		@Override
+		public JavaTechnologyAdapter getTechnologyAdapter() {
+			if (getResource() != null) {
+				return getResource().getTechnologyAdapter();
+			}
+			return null;
+
+		}
+
+		@Override
+		public String getName() {
+			if (getResource() != null) {
+				return getResource().getName();
+			}
+			return null;
+		}
 	}
 }
