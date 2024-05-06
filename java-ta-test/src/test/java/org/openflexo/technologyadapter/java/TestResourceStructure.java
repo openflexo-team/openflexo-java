@@ -39,15 +39,13 @@
 
 package org.openflexo.technologyadapter.java;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
-import java.io.File;
-import java.io.FileFilter;
 import java.io.IOException;
-import java.util.Collection;
 import java.util.logging.Logger;
 
 import org.junit.Test;
@@ -55,62 +53,19 @@ import org.junit.runner.RunWith;
 import org.openflexo.foundation.FlexoException;
 import org.openflexo.foundation.resource.FlexoResource;
 import org.openflexo.foundation.resource.FlexoResourceCenter;
+import org.openflexo.foundation.resource.RepositoryFolder;
 import org.openflexo.foundation.resource.ResourceLoadingCancelledException;
-import org.openflexo.foundation.test.OpenflexoProjectAtRunTimeTestCase;
-import org.openflexo.rm.FileResourceImpl;
-import org.openflexo.rm.Resource;
-import org.openflexo.rm.ResourceLocator;
-import org.openflexo.technologyadapter.java.model.JavaCompilationUnitRepository;
-import org.openflexo.technologyadapter.java.model.JavaPackageRepository;
 import org.openflexo.technologyadapter.java.rm.JavaCompilationUnitResource;
-import org.openflexo.technologyadapter.java.rm.JavaCompilationUnitResourceFactory;
 import org.openflexo.technologyadapter.java.rm.JavaPackageResource;
 import org.openflexo.test.OrderedRunner;
 import org.openflexo.test.TestOrder;
-import org.openflexo.toolbox.FileUtils;
-import org.openflexo.toolbox.FileUtils.CopyStrategy;
+
+import spoon.reflect.declaration.CtCompilationUnit;
 
 @RunWith(OrderedRunner.class)
-public class TestJava1 extends OpenflexoProjectAtRunTimeTestCase {
+public class TestResourceStructure extends AbstractJavaTestCase {
 
-	protected static final Logger logger = Logger.getLogger(TestJava1.class.getPackage().getName());
-
-	private static JavaTechnologyAdapter javaTechnologyAdapter;
-	private static JavaPackageRepository<?> javaPackageRepository;
-	private static JavaCompilationUnitRepository<?> javaCompilationUnitRepository;
-
-	protected void copyJavaSourceFiles(String relativePath) throws IOException {
-		Resource targetResource = ResourceLocator.locateResource(relativePath);
-		System.out.println("targetResource=" + targetResource + " of " + targetResource.getClass());
-
-		Resource sourceResource = ResourceLocator.locateSourceCodeResource(relativePath);
-		System.out.println("sourceResource=" + sourceResource + " of " + sourceResource.getClass());
-
-		if (targetResource instanceof FileResourceImpl && sourceResource instanceof FileResourceImpl) {
-			File srcDir = ((FileResourceImpl) sourceResource).getFile();
-			File dstDir = ((FileResourceImpl) targetResource).getFile();
-			FileUtils.copyContentDirToDir(srcDir, dstDir, CopyStrategy.REPLACE, new FileFilter() {
-				@Override
-				public boolean accept(File path) {
-					return path.getName().endsWith(JavaCompilationUnitResourceFactory.JAVA_FILE_EXTENSION);
-				}
-			});
-		}
-	}
-
-	protected <R extends FlexoResource<?>> R getResourceWithSerializationArtefactWithName(Collection<R> resources, String resourceName) {
-		for (R resource : resources) {
-			if (resource.getIODelegate().getSerializationArtefactName().contains(resourceName)) {
-				return resource;
-			}
-		}
-		return null;
-	}
-
-	protected boolean containsResourceWithSerializationArtefactWithName(Collection<? extends FlexoResource<?>> resources,
-			String resourceName) {
-		return (getResourceWithSerializationArtefactWithName(resources, resourceName) != null);
-	}
+	protected static final Logger logger = Logger.getLogger(TestResourceStructure.class.getPackage().getName());
 
 	/**
 	 * Instanciate test ResourceCenter
@@ -124,45 +79,30 @@ public class TestJava1 extends OpenflexoProjectAtRunTimeTestCase {
 	public void testLoadTestResourceCenter() throws IOException, ResourceLoadingCancelledException, FlexoException {
 		log("testLoadTestResourceCenter()");
 
-		/*Resource targetResource = ResourceLocator.locateResource("TestResourceCenter/JavaCode");
-		System.out.println("targetResource=" + targetResource + " of " + targetResource.getClass());
-		
-		Resource sourceResource = ResourceLocator.locateSourceCodeResource("TestResourceCenter/JavaCode");
-		System.out.println("sourceResource=" + sourceResource + " of " + sourceResource.getClass());
-		
-		if (targetResource instanceof FileResourceImpl && sourceResource instanceof FileResourceImpl) {
-			File srcDir = ((FileResourceImpl) sourceResource).getFile();
-			File dstDir = ((FileResourceImpl) targetResource).getFile();
-			FileUtils.copyContentDirToDir(srcDir, dstDir, CopyStrategy.REPLACE, new FileFilter() {
-				@Override
-				public boolean accept(File path) {
-					return path.getName().endsWith(JavaCompilationUnitResourceFactory.JAVA_FILE_EXTENSION);
-				}
-			});
-		}*/
-
 		copyJavaSourceFiles("TestResourceCenter/JavaCode");
+		copyJavaSourceFiles("SomeOtherFolders");
 
 		instanciateTestServiceManager(JavaTechnologyAdapter.class);
 
 		FlexoResourceCenter<?> resourceCenter = serviceManager.getResourceCenterService()
 				.getFlexoResourceCenter("http://openflexo.org/java-test");
-
+		logger.info("Initially working with " + resourceCenter);
+		resourceCenter = makeNewDirectoryResourceCenterFromExistingResourceCenter(serviceManager, resourceCenter);
+		logger.info("Now working with " + resourceCenter);
 		assertNotNull(resourceCenter);
 
 		javaTechnologyAdapter = serviceManager.getTechnologyAdapterService().getTechnologyAdapter(JavaTechnologyAdapter.class);
 
 		javaPackageRepository = javaTechnologyAdapter.getJavaSourceFolderRepository(resourceCenter);
-		System.out.println("javaPackageRepository=" + javaPackageRepository);
-		System.out.println("allResources=" + javaPackageRepository.getAllResources());
+		logger.info("javaPackageRepository=" + javaPackageRepository);
+		logger.info("allResources=" + javaPackageRepository.getAllResources());
 
 		for (JavaPackageResource javaPackageResource : javaPackageRepository.getAllResources()) {
-			System.out.println(
-					"> " + javaPackageResource + " in " + javaPackageResource.getIODelegate().getSerializationArtefact());
+			logger.info("> " + javaPackageResource + " in " + javaPackageResource.getIODelegate().getSerializationArtefact());
 		}
 
-		FlexoResource<?> rootSourceFolderResource = getResourceWithSerializationArtefactWithName(
-				javaPackageRepository.getAllResources(), "TestResourceCenter");
+		FlexoResource<?> rootSourceFolderResource = getResourceWithSerializationArtefactWithName(javaPackageRepository.getAllResources(),
+				"TestResourceCenter");
 		FlexoResource<?> javaCodeSourceFolderResource = getResourceWithSerializationArtefactWithName(
 				javaPackageRepository.getAllResources(), "JavaCode");
 
@@ -174,10 +114,11 @@ public class TestJava1 extends OpenflexoProjectAtRunTimeTestCase {
 		assertSame(javaCodeSourceFolderResource.getContainer(), rootSourceFolderResource);
 
 		javaCompilationUnitRepository = javaTechnologyAdapter.getJavaCompilationUnitRepository(resourceCenter);
-		System.out.println("javaCompilationUnitRepository=" + javaCompilationUnitRepository);
-		System.out.println("allResources=" + javaCompilationUnitRepository.getAllResources());
+
+		logger.info("javaCompilationUnitRepository=" + javaCompilationUnitRepository);
+		logger.info("allResources=" + javaCompilationUnitRepository.getAllResources());
 		for (JavaCompilationUnitResource javaCompilationUnitResource : javaCompilationUnitRepository.getAllResources()) {
-			System.out.println(
+			logger.info(
 					"> " + javaCompilationUnitResource + " in " + javaCompilationUnitResource.getIODelegate().getSerializationArtefact());
 		}
 
@@ -190,6 +131,52 @@ public class TestJava1 extends OpenflexoProjectAtRunTimeTestCase {
 		assertSame(helloWorldClassResource.getContainer(), javaCodeSourceFolderResource);
 
 		assertNotNull(helloWorldClassResource.loadResourceData());
+
+		CtCompilationUnit cu = helloWorldClassResource.getCompilationUnit().getCompilationUnit();
+		assertNotNull(cu);
+	}
+
+	@Test
+	@TestOrder(2)
+	public void testFoldersVsPackageResources() throws IOException, ResourceLoadingCancelledException, FlexoException {
+		log("testFoldersVsPackageResources()");
+
+		logger.info("javaPackageRepository=" + javaPackageRepository);
+		logger.info("allResources=" + javaPackageRepository.getAllResources());
+
+		for (JavaPackageResource javaPackageResource : javaPackageRepository.getAllResources()) {
+			logger.info(">>> " + javaPackageResource.getImplementedInterface().getSimpleName() + " in "
+					+ javaPackageResource.getIODelegate().getSerializationArtefact());
+		}
+
+		JavaPackageResource someJavaSourceFolderResource = getResourceWithSerializationArtefactWithName(
+				javaPackageRepository.getAllResources(), "SomeJavaSource");
+		assertNotNull(someJavaSourceFolderResource);
+
+		RepositoryFolder<JavaPackageResource, ?> parentFolder = javaPackageRepository.getRepositoryFolder(someJavaSourceFolderResource);
+		assertNotNull(parentFolder);
+		assertEquals("SubFolder", parentFolder.getName());
+
+		RepositoryFolder<JavaPackageResource, ?> parentParentFolder = parentFolder.getParentFolder();
+		assertNotNull(parentParentFolder);
+		assertEquals("SomeOtherFolders", parentParentFolder.getName());
+
+		RepositoryFolder<JavaPackageResource, ?> rootFolder = parentParentFolder.getParentFolder();
+		assertSame(rootFolder, javaPackageRepository.getRootFolder());
+
+		JavaCompilationUnitResource fooClassResource = getResourceWithSerializationArtefactWithName(
+				javaCompilationUnitRepository.getAllResources(), "Foo.java");
+		assertNotNull(fooClassResource);
+		logger.info("fooClassResource=" + fooClassResource);
+
+		assertTrue(someJavaSourceFolderResource.getContents().contains(fooClassResource));
+		assertSame(fooClassResource.getContainer(), someJavaSourceFolderResource);
+
+		assertNotNull(fooClassResource.loadResourceData());
+
+		CtCompilationUnit cu = fooClassResource.getCompilationUnit().getCompilationUnit();
+		assertNotNull(cu);
+
 	}
 
 }
