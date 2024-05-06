@@ -41,6 +41,9 @@ package org.openflexo.technologyadapter.java.controller;
 
 import javax.swing.ImageIcon;
 
+import org.fife.rsta.ac.LanguageSupportFactory;
+import org.fife.rsta.ac.java.JavaLanguageSupport;
+import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.openflexo.foundation.FlexoObject;
 import org.openflexo.foundation.fml.FlexoRole;
 import org.openflexo.foundation.fml.editionaction.EditionAction;
@@ -49,7 +52,11 @@ import org.openflexo.foundation.resource.RepositoryFolder;
 import org.openflexo.foundation.technologyadapter.TechnologyObject;
 import org.openflexo.gina.utils.InspectorGroup;
 import org.openflexo.technologyadapter.java.JavaTechnologyAdapter;
+import org.openflexo.technologyadapter.java.controller.view.JavaCompilationUnitView;
 import org.openflexo.technologyadapter.java.gui.JavaIconLibrary;
+import org.openflexo.technologyadapter.java.model.JavaCompilationUnit;
+import org.openflexo.technologyadapter.java.model.JavaSourceElement;
+import org.openflexo.technologyadapter.java.rm.JavaCompilationUnitResource;
 import org.openflexo.technologyadapter.java.rm.JavaPackageResource;
 import org.openflexo.view.EmptyPanel;
 import org.openflexo.view.ModuleView;
@@ -61,6 +68,12 @@ import org.openflexo.view.controller.model.FlexoPerspective;
 public class JavaAdapterController extends TechnologyAdapterController<JavaTechnologyAdapter> {
 
 	private InspectorGroup javaInspectorGroup;
+	private JavaLanguageSupport javaLanguageSupport;
+
+	public JavaAdapterController() {
+		LanguageSupportFactory lsf = LanguageSupportFactory.get();
+		javaLanguageSupport = (JavaLanguageSupport) lsf.getSupportFor(SyntaxConstants.SYNTAX_STYLE_JAVA);
+	}
 
 	@Override
 	public Class<JavaTechnologyAdapter> getTechnologyAdapterClass() {
@@ -194,43 +207,45 @@ public class JavaAdapterController extends TechnologyAdapterController<JavaTechn
 
 	@Override
 	public boolean isRepresentableInModuleView(TechnologyObject<JavaTechnologyAdapter> object) {
-		/*if (object instanceof SEVirtualModelInstance) {
+		if (object instanceof JavaCompilationUnit) {
 			return true;
 		}
-		if (object instanceof ExcelWorkbook) {
+		if (object instanceof JavaSourceElement) {
 			return true;
-		}*/
+		}
 		return false;
 	}
 
 	@Override
 	public FlexoObject getRepresentableMasterObject(TechnologyObject<JavaTechnologyAdapter> object) {
-		/*if (object instanceof SEVirtualModelInstance) {
+		if (object instanceof JavaCompilationUnit) {
 			return object;
 		}
-		if (object instanceof ExcelWorkbook) {
-			return object;
-		}*/
+		if (object instanceof JavaSourceElement) {
+			return ((JavaSourceElement<?>) object).getResourceData();
+		}
 		return null;
 	}
 
 	@Override
 	public String getWindowTitleforObject(TechnologyObject<JavaTechnologyAdapter> object, FlexoController controller) {
-		/*if (object instanceof ExcelWorkbook) {
-			return ((ExcelWorkbook) object).getName();
-		}*/
+		if (object instanceof JavaCompilationUnit) {
+			return ((JavaCompilationUnit) object).getName();
+		}
+		if (object instanceof JavaSourceElement) {
+			return ((JavaSourceElement<?>) object).getResourceData().getName();
+		}
 		return object.toString();
 	}
 
 	@Override
 	public ModuleView<?> createModuleViewForMasterObject(TechnologyObject<JavaTechnologyAdapter> object, FlexoController controller,
 			FlexoPerspective perspective) {
-		/*if (object instanceof SEVirtualModelInstance) {
-			return new VirtualModelInstanceView((SEVirtualModelInstance) object, controller, perspective);
+		System.out.println("Bon on cree une vue pour " + object);
+		if (object instanceof JavaCompilationUnit) {
+			JavaCompilationUnitResource resource = ((JavaCompilationUnit) object).getResource();
+			return new JavaCompilationUnitView(resource, controller, perspective);
 		}
-		if (object instanceof ExcelWorkbook) {
-			return new ExcelWorkbookView((ExcelWorkbook) object, controller, perspective);
-		}*/
 		return new EmptyPanel<>(controller, perspective, object);
 	}
 
@@ -245,7 +260,12 @@ public class JavaAdapterController extends TechnologyAdapterController<JavaTechn
 	 */
 	@Override
 	public boolean shouldBeDisplayed(RepositoryFolder<?, ?> folder) {
-		return false;
+
+		FlexoResource resource = ((RepositoryFolder) folder).getResourceRepository().getResource(folder.getSerializationArtefact());
+		if (resource instanceof JavaPackageResource) {
+			return false;
+		}
+		return true;
 	}
 
 	@Override
