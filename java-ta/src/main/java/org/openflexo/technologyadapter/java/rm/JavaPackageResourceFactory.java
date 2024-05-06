@@ -20,16 +20,23 @@
 
 package org.openflexo.technologyadapter.java.rm;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.logging.Logger;
 
 import org.openflexo.foundation.resource.FlexoResourceCenter;
 import org.openflexo.foundation.resource.TechnologySpecificPamelaResourceFactory;
 import org.openflexo.foundation.technologyadapter.TechnologyContextManager;
 import org.openflexo.pamela.exceptions.ModelDefinitionException;
+import org.openflexo.rm.InJarResourceImpl;
 import org.openflexo.technologyadapter.java.JavaTechnologyAdapter;
-import org.openflexo.technologyadapter.java.model.JavaPackageFactory;
 import org.openflexo.technologyadapter.java.model.JavaPackage;
+import org.openflexo.technologyadapter.java.model.JavaPackageFactory;
 
 /**
  * Implementation of ResourceFactory for {@link JavaPackageResource}
@@ -37,8 +44,8 @@ import org.openflexo.technologyadapter.java.model.JavaPackage;
  * @author sylvain
  *
  */
-public class JavaPackageResourceFactory extends
-		TechnologySpecificPamelaResourceFactory<JavaPackageResource, JavaPackage, JavaTechnologyAdapter, JavaPackageFactory> {
+public class JavaPackageResourceFactory
+		extends TechnologySpecificPamelaResourceFactory<JavaPackageResource, JavaPackage, JavaTechnologyAdapter, JavaPackageFactory> {
 
 	private static final Logger logger = Logger.getLogger(JavaPackageResourceFactory.class.getPackage().getName());
 
@@ -58,18 +65,91 @@ public class JavaPackageResourceFactory extends
 		if (!resourceCenter.isDirectory(serializationArtefact)) {
 			return false;
 		}
-		return containsJavaFiles(serializationArtefact, resourceCenter);
+		return isPackage(serializationArtefact, resourceCenter);
 	}
 
-	private <I> boolean containsJavaFiles(I serializationArtefact, FlexoResourceCenter<I> resourceCenter) {
+	private <I> boolean isJavaArtefact(I serializationArtefact, FlexoResourceCenter<I> resourceCenter) {
+		return resourceCenter.retrieveName(serializationArtefact).endsWith(JavaCompilationUnitResourceFactory.JAVA_FILE_EXTENSION);
+	}
+
+	private <I> String getPackageName(I serializationArtefact, FlexoResourceCenter<I> resourceCenter) throws IOException {
+		if (serializationArtefact instanceof File) {
+			FileReader fileReader = null;
+			try {
+				fileReader = new FileReader((File) serializationArtefact);
+				return extractPackageName(fileReader);
+			} finally {
+				fileReader.close();
+			}
+		}
+		else if (serializationArtefact instanceof InJarResourceImpl) {
+			InputStream inputStream = null;
+			InputStreamReader inputStreamReader = null;
+			try {
+				inputStream = ((InJarResourceImpl) serializationArtefact).openInputStream();
+				inputStreamReader = new InputStreamReader(inputStream);
+				return extractPackageName(inputStreamReader);
+			} finally {
+				inputStreamReader.close();
+				inputStream.close();
+			}
+		}
+		System.out.println("What to do with " + serializationArtefact + " of " + serializationArtefact.getClass());
+		return null;
+	}
+
+	private static String extractPackageName(Reader reader) throws IOException {
+		BufferedReader br = new BufferedReader(reader);
+		String line;
+		while ((line = br.readLine()) != null) {
+			line = line.trim();
+			if (line.startsWith("package ")) {
+				return line.substring(8, line.lastIndexOf(';')).trim();
+			}
+		}
+		return null;
+	}
+
+	private <I> boolean isPackage(I serializationArtefact, FlexoResourceCenter<I> resourceCenter) {
+		return isPackage(serializationArtefact, resourceCenter, resourceCenter.retrieveName(serializationArtefact));
+	}
+
+	private <I> boolean isPackage(I serializationArtefact, FlexoResourceCenter<I> resourceCenter, String expectedPackageName) {
+
 		for (I content : resourceCenter.getContents(serializationArtefact)) {
-			if (resourceCenter.retrieveName(content).endsWith(JavaCompilationUnitResourceFactory.JAVA_FILE_EXTENSION)) {
-				return true;
+			if (isJavaArtefact(content, resourceCenter)) {
+				String packageName = null;
+				try {
+					packageName = getPackageName(content, resourceCenter);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				// System.out.println("Fichier java: " + content + " package=" + packageName);
+				if (expectedPackageName.equals(packageName)) {
+					return true;
+				}
+				if (packageName == null) {
+					return false;
+				}
+				if (packageName.endsWith(expectedPackageName)) {
+					// System.out.println("expectedPackageName=" + expectedPackageName);
+					// System.out.println("packageName=" + packageName);
+					String expectedPathName = resourceCenter.relativePath(serializationArtefact);
+					// System.out.println("expectedPathName=" + expectedPathName);
+					expectedPathName = expectedPathName.replace(File.separator, ".");
+					// System.out.println("expectedPathName=" + expectedPathName);
+					if (packageName.equals(expectedPathName)) {
+						// System.out.println("YES!!!");
+						return true;
+					}
+				}
+				return false;
 			}
 		}
 		for (I content : resourceCenter.getContents(serializationArtefact)) {
 			if (resourceCenter.isDirectory(content)) {
-				return containsJavaFiles(content, resourceCenter);
+				return isPackage(content, resourceCenter, expectedPackageName + "." + resourceCenter.retrieveName(content));
 			}
 		}
 		return false;

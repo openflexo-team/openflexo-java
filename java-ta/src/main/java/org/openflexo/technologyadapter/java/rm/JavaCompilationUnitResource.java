@@ -59,4 +59,7 @@ public interface JavaCompilationUnitResource extends TechnologyAdapterResource<J
 		PamelaResource<JavaCompilationUnit, JavaModelFactory> {
 
 	public String getFullQualifiedClassName();
+
+	public JavaCompilationUnit getCompilationUnit();
+
 }

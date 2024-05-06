@@ -87,6 +87,7 @@ public class JavaModelFactory extends PamelaModelFactory implements PamelaResour
 
 	public JavaCompilationUnit makeJavaCompilationUnit(CtCompilationUnit cu) {
 		JavaCompilationUnit returned = newInstance(JavaCompilationUnit.class);
+		returned.setCompilationUnit(cu);
 		return returned;
 	}
 

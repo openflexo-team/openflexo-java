@@ -38,10 +38,13 @@
 
 package org.openflexo.technologyadapter.java.rm;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.logging.Logger;
 
+import org.openflexo.foundation.FlexoException;
 import org.openflexo.foundation.resource.PamelaResourceImpl;
+import org.openflexo.foundation.resource.ResourceLoadingCancelledException;
 import org.openflexo.foundation.resource.SaveResourceException;
 import org.openflexo.technologyadapter.java.model.JavaCompilationUnit;
 import org.openflexo.technologyadapter.java.model.JavaModelFactory;
@@ -106,6 +109,24 @@ public abstract class JavaCompilationUnitResourceImpl extends PamelaResourceImpl
 	@Override
 	public Class<JavaCompilationUnit> getResourceDataClass() {
 		return JavaCompilationUnit.class;
+	}
+
+	/**
+	 * Return virtual model stored by this resource<br>
+	 * Load the resource data when unloaded
+	 */
+	@Override
+	public JavaCompilationUnit getCompilationUnit() {
+		try {
+			return getResourceData();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (ResourceLoadingCancelledException e) {
+			e.printStackTrace();
+		} catch (FlexoException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }
