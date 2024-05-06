@@ -4,6 +4,8 @@ dependencies {
   // openflexo dep
   implementation group: 'junit', name: 'junit', version: '4.13.2'
 
+ // TODO: why should i mention it here ? Shouldn't i inherit this dependency transitively from java-ta ?
+  //implementation group: 'fr.inria.gforge.spoon', name: 'spoon-core', version: '11.0.1-beta-2'
   implementation group: 'fr.inria.gforge.spoon', name: 'spoon-core', version: '9.1.0'
 
   // testing dep
