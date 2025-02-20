@@ -45,9 +45,7 @@ import java.util.logging.Logger;
 import org.openflexo.foundation.fml.FlexoRole;
 import org.openflexo.foundation.fml.annotations.DeclareFlexoRoles;
 import org.openflexo.foundation.fml.annotations.FML;
-import org.openflexo.foundation.fml.rt.FlexoConceptInstance;
-import org.openflexo.foundation.fml.rt.ModelSlotInstance;
-import org.openflexo.foundation.technologyadapter.ModelSlot;
+import org.openflexo.foundation.technologyadapter.FreeModelSlot;
 import org.openflexo.pamela.PamelaMetaModelLibrary;
 import org.openflexo.pamela.annotations.ImplementationClass;
 import org.openflexo.pamela.annotations.ModelEntity;
@@ -55,6 +53,7 @@ import org.openflexo.pamela.annotations.XMLElement;
 import org.openflexo.pamela.exceptions.ModelDefinitionException;
 import org.openflexo.technologyadapter.java.fml.JavaClassRole;
 import org.openflexo.technologyadapter.java.model.JavaPackage;
+import org.openflexo.technologyadapter.java.rm.JavaPackageResource;
 
 /**
  * TODO
@@ -80,12 +79,13 @@ import org.openflexo.technologyadapter.java.model.JavaPackage;
 						+ "});",
 				description = "Declares a model slot called 'myDiagram' with resulting type 'Diagram', realized through the 'TypedDiagram' model slot, conform to 'myDiagramSpecification' and specified palette element bindings") },
 		references = { @SeeAlso(FreeDiagramModelSlot.class), @SeeAlso(CreateDiagram.class) })*/
-public interface JavaPackageModelSlot extends ModelSlot<JavaPackage> {
+public interface JavaPackageModelSlot extends FreeModelSlot<JavaPackage, JavaPackageResource> {
 
 	@Override
 	public JavaTechnologyAdapter getModelSlotTechnologyAdapter();
 
-	public static abstract class JavaPackageModelSlotImpl extends ModelSlotImpl<JavaPackage> implements JavaPackageModelSlot {
+	public static abstract class JavaPackageModelSlotImpl extends FreeModelSlotImpl<JavaPackage, JavaPackageResource>
+			implements JavaPackageModelSlot {
 
 		private static final Logger logger = Logger.getLogger(JavaPackageModelSlot.class.getPackage().getName());
 
@@ -148,10 +148,5 @@ public interface JavaPackageModelSlot extends ModelSlot<JavaPackage> {
 			return null;
 		}
 
-		@Override
-		public ModelSlotInstance<?, JavaPackage> makeActorReference(JavaPackage object, FlexoConceptInstance fci) {
-			// TODO Auto-generated method stub
-			return null;
-		}
 	}
 }
