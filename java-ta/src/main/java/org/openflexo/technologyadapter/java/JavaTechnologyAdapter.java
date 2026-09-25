@@ -105,7 +105,8 @@ public class JavaTechnologyAdapter extends TechnologyAdapter<JavaTechnologyAdapt
 		JavaPackageRepository<I> returned = resourceCenter.retrieveRepository(JavaPackageRepository.class, this);
 		if (returned == null) {
 			returned = JavaPackageRepository.instanciateNewRepository(this, resourceCenter);
-			resourceCenter.registerRepository(returned, JavaPackageRepository.class, this);
+			// Another thread may have registered one meanwhile: use the registered one (CORE-D-25)
+			returned = resourceCenter.registerRepository(returned, JavaPackageRepository.class, this);
 		}
 		return returned;
 	}
@@ -114,7 +115,8 @@ public class JavaTechnologyAdapter extends TechnologyAdapter<JavaTechnologyAdapt
 		JavaCompilationUnitRepository<I> returned = resourceCenter.retrieveRepository(JavaCompilationUnitRepository.class, this);
 		if (returned == null) {
 			returned = JavaCompilationUnitRepository.instanciateNewRepository(this, resourceCenter);
-			resourceCenter.registerRepository(returned, JavaCompilationUnitRepository.class, this);
+			// Another thread may have registered one meanwhile: use the registered one (CORE-D-25)
+			returned = resourceCenter.registerRepository(returned, JavaCompilationUnitRepository.class, this);
 		}
 		return returned;
 	}
