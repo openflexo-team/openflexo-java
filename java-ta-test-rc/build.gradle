@@ -29,13 +29,13 @@ compileJava.dependsOn(copyCustomJavaToResources)
 
 apply plugin: 'eclipse'
 
+// The .java files under src/main/resources are test data, not code: keep them out of
+// Eclipse's Java build (Gradle never compiles resources, only the Eclipse import does).
 eclipse {
     classpath {
         file {
             whenMerged {
-                def src = entries.find { it.path == 'src/main/resources' }
-                //src.excludes = ['**']
-                //src.includes = ['**/*.java']
+                entries.findAll { it.path == 'src/main/resources' }.each { it.excludes = ['**/*.java'] }
             }
         }
     }
